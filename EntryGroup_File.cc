@@ -7,6 +7,8 @@
 #include <dirent.h>
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
@@ -217,7 +219,7 @@ void EntryGroup_File::pressReturn(){
 
 void EntryGroup_File::draw(){
     std::cout<<"EntryGroup_File::draw"<<std::endl;
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
 
     EntryGroup::draw();
 
@@ -256,9 +258,9 @@ void EntryGroup_File::render(){
 		    color.b = 255;
 		}
 		else{
-		    color.r = 255;
-		    color.g = 255;
-		    color.b = 255;
+		    color.r = 0;
+		    color.g = 0;
+		    color.b = 0;
 		}
 
 		EntryGroup::render(ii-pos, str_render.c_str(), color);
@@ -276,4 +278,30 @@ void EntryGroup_File::render(){
 	}
     }
     std::cout<<"END EntryGroup_File::render"<<std::endl;
+}
+
+void EntryGroup_File::input(const SDL_Event& event){
+    if(event.type==SDL_KEYDOWN){
+	if(event.key.keysym.sym==SDLK_RETURN)
+	    pressReturn();
+	else if(event.key.keysym.sym==SDLK_DOWN)
+	    pressDown();
+	else if(event.key.keysym.sym==SDLK_UP)
+	    pressUp();
+	else if(event.key.keysym.sym==SDLK_h)
+	    switchDir(HOME);
+	else if(event.key.keysym.sym==SDLK_PERIOD){
+		m_active = 0;
+		render();
+		draw();
+	    }
+	else if(event.key.keysym.sym==SDLK_ESCAPE){
+	    SDL_FreeSurface(screen);
+	    TTF_Quit();
+	    SDL_Quit();
+	    exit(0);
+	}
+
+	draw();
+    }
 }

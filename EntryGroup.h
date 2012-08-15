@@ -15,6 +15,7 @@ class EntryGroup{
 	void pressUp();
 
 	virtual void render() = 0;
+	virtual void input(const SDL_Event& event) = 0;
 	virtual	void draw();
 		void render(const size_t idx, const char* title, const SDL_Color color);
 		void clear();

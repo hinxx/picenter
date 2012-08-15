@@ -2,6 +2,7 @@
 #define ENTRYGROUP_FILE_H
 
 #include "EntryGroup.h"
+#include "constants.h"
 
 #include <string>
 #include <iostream>
@@ -22,13 +23,14 @@ class DirFile{
 
 class EntryGroup_File : public EntryGroup{
     public:
-	EntryGroup_File() : EntryGroup() { switchDir("/media/usb/"); }
+	EntryGroup_File() : EntryGroup() { switchDir(HOME); }
 	~EntryGroup_File()  {}
 
 	virtual void pressReturn();
 
 	virtual void draw();
 	virtual void render();
+	virtual void input(const SDL_Event& event);
 
 	virtual const unsigned short int getCountEntries() { return m_entries.size(); }
 

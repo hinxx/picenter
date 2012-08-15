@@ -16,7 +16,7 @@ SDL_Surface* screen;
 TTF_Font* font;
 
 int main(){
-init();
+    init();
 
     SDL_Event event;
 
@@ -24,27 +24,9 @@ init();
 
     grp->draw();
 
-    bool running=true;
-
-    while(running){
+    while(true){
 	while(SDL_PollEvent(&event)){
-	    if(event.type==SDL_KEYDOWN){
-		if(event.key.keysym.sym==SDLK_RETURN)
-		    grp->pressReturn();
-		else if(event.key.keysym.sym==SDLK_DOWN)
-		    grp->pressDown();
-		else if(event.key.keysym.sym==SDLK_UP)
-		    grp->pressUp();
-		else if(event.key.keysym.sym==SDLK_ESCAPE){
-		    SDL_FreeSurface(screen);
-		    TTF_Quit();
-		    SDL_Quit();
-                    running=false;
-                    break;
-		}
-
-		grp->draw();
-	    }
+	    grp->input(event);
 	}
 	SDL_Delay(20);
     }
