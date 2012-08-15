@@ -63,14 +63,14 @@ DirFileSorted sortDirFileList(DirFileList& list){
     for(DirFileList::iterator it=list.begin();it!=list.end();it++){
 	//std::cout<<"	    path: "<<it->path<<std::endl;
 	if(
-	    (it->path.substr(it->path.size()-2, it->path.size())=="..") ||
-	    (it->path[it->path.size()-1]=='.')||
-	    (it->path[it->path.rfind('/')+1]=='.')
-	    ){
+		(it->path.substr(it->path.size()-2, it->path.size())=="..") ||
+		(it->path[it->path.size()-1]=='.')||
+		(it->path[it->path.rfind('/')+1]=='.')
+	  ){
 	    //std::cout<<"ERASE"<<std::endl;
 	    it=list.erase(it);
 	    it--;
-            continue;
+	    continue;
 	}
 	else{
 	    if(it->isDir())
@@ -145,7 +145,7 @@ void EntryGroup_File::switchDir(const std::string dir){
     //m_entries.resize(countEntries);
 
     //if(std::string(dir)!=std::string("/"))
-	m_entries.push_back(new DirFile("..", 0));
+    m_entries.push_back(new DirFile("..", 0));
 
     for(std::vector<std::string>::iterator it=vec_all.ptr_list_dirs->begin(); it!=vec_all.ptr_list_dirs->end(); it++){
 	m_entries.push_back(new DirFile(it->c_str(), 1));
@@ -190,23 +190,26 @@ void EntryGroup_File::pressReturn(){
 
 	case 2:{
 		   std::string filepath = std::string(m_entries[m_active]->getPath());
-                   // Desktop
+		   // Desktop
 		   //std::string cmd = "mplayer -fs ";
-                   // for Raspberry PI
-		   std::string cmd = "omxplayer -o hdmi ";
+		   // for Raspberry PI
+		   std::string cmd = "omxplayer --adev hdmi --refresh ";
 
 		   // std::cout<<filepath<<std::endl;
 		   //filepath.replace(filepath.find(" "), filepath.size(), "\\ ");
 		   cmd += "'"+filepath+"'";
 
 		   SDL_FreeSurface(screen);
-			TTF_Quit();
-SDL_Quit();
+		   TTF_Quit();
+		   SDL_Quit();
 
-		    std::cout<<"OPEN "<<cmd<<std::endl;
+		   std::cout<<"OPEN "<<cmd<<std::endl;
 		   system(cmd.c_str());
 
-init();
+		   // workaround for OMXPlayer stealing the framebuffer
+		   system("fbset -depth 8 && fbset -depth 16");
+
+		   init();
 		   break;
 	       }
     }
@@ -219,12 +222,12 @@ void EntryGroup_File::draw(){
     EntryGroup::draw();
 
     /*
-    const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
-    for(unsigned short int ii=pos; ii!=pos+AMOUNT_ENTRIES; ii++){
-	if(ii<m_entries.size())
-	    m_entries[ii]->draw(ii%AMOUNT_ENTRIES);
-    }
-    */
+       const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
+       for(unsigned short int ii=pos; ii!=pos+AMOUNT_ENTRIES; ii++){
+       if(ii<m_entries.size())
+       m_entries[ii]->draw(ii%AMOUNT_ENTRIES);
+       }
+     */
 
     SDL_Flip(screen); 
 }
@@ -236,41 +239,41 @@ void EntryGroup_File::render(){
     const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
     //std::cout<<pos<<" "<<m_entries.size()<<std::endl;
     for(unsigned short int ii=pos; ii!=pos+AMOUNT_ENTRIES; ii++){
-            if(ii<m_entries.size())
-	    {
-		std::cout<<ii<<" "<<m_entries[ii]->getPath()<< " "<<(int)m_entries[ii]->getType()<<" pos "<<pos<<std::endl;
-		if(m_entries[ii]->getType()>0){
-		    const std::string str_type = m_entries[ii]->getPath();
-		    std::string str_render;
+	if(ii<m_entries.size())
+	{
+	    std::cout<<ii<<" "<<m_entries[ii]->getPath()<< " "<<(int)m_entries[ii]->getType()<<" pos "<<pos<<std::endl;
+	    if(m_entries[ii]->getType()>0){
+		const std::string str_type = m_entries[ii]->getPath();
+		std::string str_render;
 
-		    const size_t pos2 = str_type.rfind('/');
-		    str_render = str_type.substr(pos2+1);
+		const size_t pos2 = str_type.rfind('/');
+		str_render = str_type.substr(pos2+1);
 
-		    SDL_Color color;
-		    if(m_entries[ii]->isDir()){
-			color.r = 0;
-			color.g = 0;
-			color.b = 255;
-		    }
-		    else{
-			color.r = 255;
-			color.g = 255;
-			color.b = 255;
-		    }
-
-		    EntryGroup::render(ii-pos, str_render.c_str(), color);
+		SDL_Color color;
+		if(m_entries[ii]->isDir()){
+		    color.r = 0;
+		    color.g = 0;
+		    color.b = 255;
 		}
 		else{
-		    SDL_Color color;
 		    color.r = 255;
-		    color.g = 0;
-		    color.b = 0;
-
-		    EntryGroup::render(ii-pos, "..", color);
+		    color.g = 255;
+		    color.b = 255;
 		}
-		//render();
-                //m_entries[ii]->render();
+
+		EntryGroup::render(ii-pos, str_render.c_str(), color);
 	    }
+	    else{
+		SDL_Color color;
+		color.r = 255;
+		color.g = 0;
+		color.b = 0;
+
+		EntryGroup::render(ii-pos, "..", color);
+	    }
+	    //render();
+	    //m_entries[ii]->render();
+	}
     }
     std::cout<<"END EntryGroup_File::render"<<std::endl;
 }

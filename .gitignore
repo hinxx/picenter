@@ -1,0 +1,4 @@
+*.o
+omxplayer.log
+omxplayer.old.log
+picenter
