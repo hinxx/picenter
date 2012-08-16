@@ -10,7 +10,7 @@ void init(){
 
     const SDL_VideoInfo* curmode = SDL_GetVideoInfo();
     //std::cout << "Current mode: " << (int)curmode->vfmt->BitsPerPixel << std::endl;
-    screen = SDL_SetVideoMode(curmode->current_w, curmode->current_h, curmode->vfmt->BitsPerPixel, SDL_HWSURFACE);
+    screen = SDL_SetVideoMode(curmode->current_w, curmode->current_h, curmode->vfmt->BitsPerPixel, SDL_SWSURFACE);
 
     // PI
     font = TTF_OpenFont("/usr/share/fonts/truetype/freefont/FreeMono.ttf", FONTSIZE);
