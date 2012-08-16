@@ -322,6 +322,21 @@ void EntryGroup_File::input(const SDL_Event& event){
 	    pressDown();
 	else if(event.key.keysym.sym==SDLK_UP)
 	    pressUp();
+	else if(event.key.keysym.sym==SDLK_RIGHT){
+	    m_active += AMOUNT_ENTRIES;
+	    if(m_active>getCountEntries()-1)
+		m_active = getCountEntries()-1;
+
+	    render();
+	}
+	else if(event.key.keysym.sym==SDLK_LEFT){
+	    if(m_active<AMOUNT_ENTRIES)
+		m_active=0;
+	    else
+		m_active -= AMOUNT_ENTRIES;
+
+	    render();
+	}
 	else if(event.key.keysym.sym==SDLK_h)
 	    switchDir(HOME);
 	else if(event.key.keysym.sym==SDLK_PERIOD){
