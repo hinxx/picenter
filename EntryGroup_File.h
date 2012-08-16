@@ -2,6 +2,7 @@
 #define ENTRYGROUP_FILE_H
 
 #include <string>
+#include <list>
 #include <iostream>
 
 #include "EntryGroup.h"
@@ -15,6 +16,7 @@ class DirFile{
 	const bool isFile()		{ return type==2; }
 	const char getType()		{ return type; }
 	const std::string& getPath()	{ return path; }
+	virtual std::list<std::string>&	getListFiletypes();
 
     //private:
 	std::string path;

@@ -78,18 +78,33 @@ DirFileSorted sortDirFileList(DirFileList& list){
 	    it=list.erase(it);
 	    it--;
 	    continue;
+	}else if(it->isFile()){
+	    std::list<std::string> lst = it->getListFiletypes();
+
+	    bool ok=false;
+	    for(std::list<std::string>::iterator itt=lst.begin();itt!=lst.end();itt++){
+		if(it->getPath().substr(it->getPath().size()-3)==*itt){
+		    ok=true;
+		}
+	    }
+	    if(ok==false){
+		it=list.erase(it);
+		it--;
+		continue;
+	    }
 	}
-	else{
-	    if(it->isDir())
-	    {
-		//std::cout<<"DIR "<<it->path<<std::endl;
-		cnt_dirs +=1;
-	    }
-	    else if(it->isFile())
-	    {
-		//std::cout<<"FILE "<<it->path<<std::endl;
-		cnt_files +=1;
-	    }
+    }
+
+    for(DirFileList::iterator it=list.begin();it!=list.end();it++){
+	if(it->isDir())
+	{
+	    //std::cout<<"DIR "<<it->path<<std::endl;
+	    cnt_dirs +=1;
+	}
+	else if(it->isFile())
+	{
+	    //std::cout<<"FILE "<<it->path<<std::endl;
+	    cnt_files +=1;
 	}
     }
 
@@ -105,19 +120,11 @@ DirFileSorted sortDirFileList(DirFileList& list){
     std::vector<std::string>* ptr_list_dirs	= new std::vector<std::string>();
     std::vector<std::string>* ptr_list_files	= new std::vector<std::string>();
 
-    int iid=0;
-    int iif=0;
-
     for(DirFileList::iterator it=list.begin();it!=list.end();it++){
-	//std::cout<<it->path<<" "<<iid<<" "<<iif<<std::endl;
 	if(it->isDir()){
-	    //(*ptr_list_dirs)[iid] = *(new std::string(it->path));
-	    //iid += 1;
 	    ptr_list_dirs->push_back(it->path);
 	}
 	else if(it->isFile()){
-	    //(*ptr_list_files)[iif] = *(new std::string(it->path));
-	    //iif += 1;
 	    ptr_list_files->push_back(it->path);
 	}
     }
@@ -331,4 +338,14 @@ void EntryGroup_File::input(const SDL_Event& event){
 
 	draw();
     }
+}
+
+std::list<std::string>& DirFile::getListFiletypes(){
+    std::list<std::string>* ret = new std::list<std::string>;
+
+    ret->push_back(std::string("avi"));
+    ret->push_back(std::string("mp4"));
+    ret->push_back(std::string("mkv"));
+
+    return *ret;
 }
