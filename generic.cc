@@ -12,11 +12,5 @@ void init(){
     //std::cout << "Current mode: " << (int)curmode->vfmt->BitsPerPixel << std::endl;
     screen = SDL_SetVideoMode(curmode->current_w, curmode->current_h, curmode->vfmt->BitsPerPixel, SDL_SWSURFACE);
 
-    // PI
-    font = TTF_OpenFont("/usr/share/fonts/truetype/freefont/FreeMono.ttf", FONTSIZE);
-    //font = TTF_OpenFont("/usr/share/fonts/dejavu/DejaVuSansMono.ttf", FONTSIZE);
-    //font = TTF_OpenFont("/usr/share/fonts/bitstream-vera/VeraMono.ttf", FONTSIZE);
-
-    // Desktop
-    //font = TTF_OpenFont("/usr/local/lib/X11/fonts/freefont-ttf/FreeMono.ttf", FONTSIZE);
+    font = TTF_OpenFont(FONT, FONTSIZE);
 }

@@ -6,5 +6,6 @@
 #define ENTRY_X		10
 #define ENTRY_Y		10
 #define HOME		"/media/usb"
+#define FONT		"/usr/share/fonts/truetype/freefont/FreeMono.ttf"
 
 #endif
