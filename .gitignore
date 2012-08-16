@@ -2,3 +2,5 @@
 omxplayer.log
 omxplayer.old.log
 picenter
+debug.log
+*.swp

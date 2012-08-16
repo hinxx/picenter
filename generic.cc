@@ -1,5 +1,7 @@
 #include "generic.h"
-#include "constants.h"
+#include "conf.h"
+
+#include<fstream>
 
 void init(){
     // Initialize and global variables

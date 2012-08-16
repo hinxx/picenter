@@ -3,7 +3,8 @@
 
 #include <vector>
 #include <SDL/SDL.h>
-#include "constants.h"
+
+#include "conf.h"
 
 class EntryGroup{
     public:

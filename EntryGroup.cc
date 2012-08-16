@@ -1,5 +1,5 @@
 #include "EntryGroup.h"
-#include "constants.h"
+#include "config.h"
 #include "generic.h"
 
 #include <SDL/SDL_ttf.h>

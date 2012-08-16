@@ -1,6 +1,7 @@
 #include "EntryGroup_File.h"
-#include "constants.h"
+#include "conf.h"
 #include "generic.h"
+#include "Log.h"
 
 #include <string>
 #include <list>
@@ -11,6 +12,10 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+
+#ifdef LOG
+extern Log DebugLog;
+#endif
 
 typedef std::list<DirFile> DirFileList;
 
@@ -80,16 +85,25 @@ DirFileSorted sortDirFileList(DirFileList& list){
 		//std::cout<<"DIR "<<it->path<<std::endl;
 		cnt_dirs +=1;
 	    }
-	    else
+	    else if(it->isFile())
 	    {
 		//std::cout<<"FILE "<<it->path<<std::endl;
 		cnt_files +=1;
 	    }
 	}
     }
-    std::cout<<"cnt_dirs: "<<cnt_dirs<<" cnt_files: "<<cnt_files<<std::endl;
-    std::vector<std::string>* ptr_list_dirs	= new std::vector<std::string>(cnt_dirs);
-    std::vector<std::string>* ptr_list_files	= new std::vector<std::string>(cnt_files);
+
+#ifdef LOG
+    DebugLog<<"cnt_dirs:";
+    DebugLog<<cnt_dirs;
+    DebugLog<<"cnt_files:";
+    DebugLog<<cnt_files;
+#endif
+
+    //std::vector<std::string>* ptr_list_dirs	= new std::vector<std::string>(cnt_dirs);
+    //std::vector<std::string>* ptr_list_files	= new std::vector<std::string>(cnt_files);
+    std::vector<std::string>* ptr_list_dirs	= new std::vector<std::string>();
+    std::vector<std::string>* ptr_list_files	= new std::vector<std::string>();
 
     int iid=0;
     int iif=0;
@@ -97,19 +111,32 @@ DirFileSorted sortDirFileList(DirFileList& list){
     for(DirFileList::iterator it=list.begin();it!=list.end();it++){
 	//std::cout<<it->path<<" "<<iid<<" "<<iif<<std::endl;
 	if(it->isDir()){
-	    //(*ptr_list_dirs)[iid] = it->path;
+	    //(*ptr_list_dirs)[iid] = *(new std::string(it->path));
 	    //iid += 1;
 	    ptr_list_dirs->push_back(it->path);
 	}
 	else if(it->isFile()){
-	    //(*ptr_list_files)[iif] = it->path;
+	    //(*ptr_list_files)[iif] = *(new std::string(it->path));
 	    //iif += 1;
 	    ptr_list_files->push_back(it->path);
 	}
     }
 
-    std::sort(ptr_list_dirs->begin(),	ptr_list_dirs->end(),	strcompare);	
-    std::sort(ptr_list_files->begin(),	ptr_list_files->end(),	strcompare);	
+#ifdef LOG
+    DebugLog<<"";
+    DebugLog<<"DIRS";
+    for(int ii=0;ii<cnt_dirs;ii++){
+	DebugLog << (*ptr_list_dirs)[ii].c_str();
+    }
+    DebugLog<<"";
+    DebugLog<<"FILES";
+    for(int ii=0;ii<cnt_files;ii++){
+	DebugLog <<(*ptr_list_files)[ii].c_str();
+    }
+#endif
+
+    //std::sort(ptr_list_dirs->begin(),	ptr_list_dirs->end(),	strcompare);	
+    //std::sort(ptr_list_files->begin(),	ptr_list_files->end(),	strcompare);	
 
     //std::cout<<"sorted..."<<std::endl;
 

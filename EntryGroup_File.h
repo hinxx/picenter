@@ -1,11 +1,11 @@
 #ifndef ENTRYGROUP_FILE_H
 #define ENTRYGROUP_FILE_H
 
-#include "EntryGroup.h"
-#include "constants.h"
-
 #include <string>
 #include <iostream>
+
+#include "EntryGroup.h"
+#include "conf.h"
 
 class DirFile{
     public:

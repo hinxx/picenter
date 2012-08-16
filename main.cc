@@ -9,11 +9,16 @@
 
 #include "EntryGroup.h"
 #include "EntryGroup_File.h"
-#include "constants.h"
+#include "conf.h"
 #include "generic.h"
+#include "Log.h"
 
 SDL_Surface* screen;
 TTF_Font* font;
+
+#ifdef LOG
+Log DebugLog("debug.log");
+#endif
 
 int main(){
     init();
