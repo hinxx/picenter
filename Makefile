@@ -1,5 +1,5 @@
 CC	= g++
-CFLAGS	= -Wall
+CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard
 LDFLAGS	= -I/usr/local/include -L/usr/local/lib -lSDL -lSDL_ttf
 
 OBJ = main.o EntryGroup.o EntryGroup_File.o generic.o
