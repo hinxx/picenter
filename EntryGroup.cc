@@ -1,5 +1,5 @@
 #include "EntryGroup.h"
-#include "config.h"
+#include "conf.h"
 #include "generic.h"
 
 #include <SDL/SDL_ttf.h>
@@ -35,7 +35,6 @@ void EntryGroup::pressDown(){
 	if(m_active==getCountEntries())
 	    m_active=0;
 
-std::cout<<"Pressed down"<<std::endl;
 	if(m_active%AMOUNT_ENTRIES==0)
 	    render();
 }
@@ -46,8 +45,7 @@ void EntryGroup::pressUp(){
 	else
 	    m_active-=1;	
 
-std::cout<<"Pressed up"<<std::endl;
-	if(m_active%AMOUNT_ENTRIES==AMOUNT_ENTRIES-1)
+	if(m_active%AMOUNT_ENTRIES==AMOUNT_ENTRIES-1 || m_active==getCountEntries()-1)
 	    render();
 }
 
