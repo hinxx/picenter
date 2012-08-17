@@ -200,6 +200,15 @@ void EntryGroup_File::switchDir(const std::string dir){
     render();
 }
 
+void EntryGroup_File::switchDir(const std::string dir, const unsigned short int active){
+    switchDir(dir);
+    if(active>getCountEntries()-1)
+	m_active=getCountEntries()-1;
+    else
+	m_active=active;
+    render();
+}
+
 #include <cstdlib>
 
 void EntryGroup_File::pressReturn(){
@@ -339,6 +348,8 @@ void EntryGroup_File::input(const SDL_Event& event){
 	}
 	else if(event.key.keysym.sym==SDLK_h)
 	    switchDir(HOME);
+	else if(event.key.keysym.sym==SDLK_r)
+	    switchDir(m_curDir, m_active);
 	else if(event.key.keysym.sym==SDLK_PERIOD){
 		m_active = 0;
 		render();

@@ -39,6 +39,7 @@ class EntryGroup_File : public EntryGroup{
     private:
 	virtual const	unsigned short int  getNumberEntries() { return m_entries.size(); }
 			void		    switchDir(const std::string dir);
+			void		    switchDir(const std::string dir, const unsigned short int active);
 			void		    clearList();
 
 	std::vector<DirFile*>	    m_entries;
