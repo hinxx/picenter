@@ -25,4 +25,4 @@ picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -r $(OBJ) $(OBJPLUGINS) picenter
+	rm -rf $(OBJ) $(OBJPLUGINS) picenter
