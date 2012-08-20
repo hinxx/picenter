@@ -13,8 +13,8 @@ PiCenter is a lightweight launcher for OMXPlayer (Raspberry Pi) and is currently
 
 Dependencies
 ------------
-> SDL
-> SDL-ttf
+* SDL
+* SDL-ttf
 
 Configuration and Compilation
 -----------------------------
