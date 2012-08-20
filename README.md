@@ -4,12 +4,12 @@ PiCenter
 Introduction
 ------------
 PiCenter is a lightweight launcher for OMXPlayer (Raspberry Pi) and is currently under heavy development. It may be ugly and not as feature-rich as XBMC, but I want a small media-centre on the PI that supports the features I want + a centre that is quite fast and not so resource hungry as XBMC. The future plans are
-> stable, small API for plugins, so nearly everybody can develop plugins for PiCenter
-> dynamic plugin loading
-> Video thumbnails
-> Audio plugin (play music, playlist support...)
-> Jupiterbroadcasting plugin (watch LIVE + stream all podcasts)
-> (maybe) Youtube plugin
+* stable, small API for plugins, so nearly everybody can develop plugins for PiCenter
+* dynamic plugin loading
+* Video thumbnails
+* Audio plugin (play music, playlist support...)
+* Jupiterbroadcasting plugin (watch LIVE + stream all podcasts)
+* (maybe) Youtube plugin
 
 Dependencies
 ------------
@@ -26,12 +26,12 @@ Run 'picenter' from within the console.
 
 Keybindings
 -----------
-> Up/Down - Folder/File up/down
-> Left/Right - Switch page
-> Return - Open folder or start movie
-> H - Return to home (conf.h)
-> . - Go to ..
-> Escape - Quit
+* Up/Down - Folder/File up/down
+* Left/Right - Switch page
+* Return - Open folder or start movie
+* H - Return to home (conf.h)
+* . - Go to ..
+* Escape - Quit
 
 Licensing
 ---------
