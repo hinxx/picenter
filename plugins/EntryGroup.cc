@@ -1,6 +1,6 @@
 #include "EntryGroup.h"
 #include "conf.h"
-#include "generic.h"
+#include "../generic.h"
 
 #include <SDL/SDL_ttf.h>
 #include <iostream>
