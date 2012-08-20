@@ -1,7 +1,7 @@
 #include "EntryGroup_File.h"
 #include "conf.h"
-#include "generic.h"
-#include "Log.h"
+#include "../generic.h"
+#include "../Log.h"
 
 #include <string>
 #include <list>

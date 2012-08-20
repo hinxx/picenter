@@ -2,14 +2,15 @@ CC	= g++
 HOST	= $(uname -a)
 
 ifeq (HOST, raspberrypi)
-	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard
+	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins
 else
-	CFLAGS	= -Wall
+	CFLAGS	= -Wall -Iplugins
 endif
 
 LDFLAGS	= -lSDL -lSDL_ttf
 
-OBJ = main.o EntryGroup.o EntryGroup_File.o generic.o
+OBJ = main.o generic.o
+OBJPLUGINS = plugins/EntryGroup.o plugins/EntryGroup_File.o
 
 include settings.mak
 
@@ -17,11 +18,11 @@ ifdef LOG
     CFLAGS += -DLOG
 endif
 
-picenter: $(OBJ) Makefile settings.mak
-	$(CC) $(CFLAGS) -o picenter $(OBJ) $(LDFLAGS)
+picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak
+	$(CC) $(CFLAGS) -o picenter $(OBJ) $(OBJPLUGINS) $(LDFLAGS)
 
 %.o: %.cc
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -r *.o picenter
+	rm -r $(OBJ) $(OBJPLUGINS) picenter
