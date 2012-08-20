@@ -246,12 +246,12 @@ void EntryGroup_File::pressReturn(){
 
 		   // std::cout<<filepath<<std::endl;
 		   //filepath.replace(filepath.find(" "), filepath.size(), "\\ ");
-		   DebugLog << filepath.c_str();
+		   //DebugLog << filepath.c_str();
 		   //filepath = string_replace(filepath, "'", "\\'");
 		   //filepath = string_replace(filepath, "(", "\\(");
 		   //filepath = string_replace(filepath, ")", "\\)");
 		   //filepath = string_replace(filepath, " ", "\\ ");
-		   DebugLog << filepath.c_str();
+		   //DebugLog << filepath.c_str();
 
 		   cmd += "'"+filepath+"'";
 		   //cmd += filepath;
