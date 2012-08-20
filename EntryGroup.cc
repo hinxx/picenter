@@ -11,11 +11,12 @@ EntryGroup::EntryGroup(){
     color_blue.g = 0;
     color_blue.b = 255;
 
-    m_surf_active = TTF_RenderText_Solid(font, ">", color_blue);
+    m_surf_active = SDL_CreateRGBSurface(SDL_SWSURFACE, 1750, FONTSIZE, 16, 255, 255, 255, 255);
+    SDL_FillRect(m_surf_active, NULL, SDL_MapRGB(screen->format, 0, 0, 255));
 
     m_rect.w = FONTSIZE;
     m_rect.h = FONTSIZE;
-    m_rect.x = 0;
+    m_rect.x = 10;
 
     // need to be fixed
     m_rect2.w = 200;
@@ -51,7 +52,6 @@ void EntryGroup::pressUp(){
 
 void EntryGroup::draw(){
     m_rect.y = ENTRY_Y+m_active%AMOUNT_ENTRIES*FONTSIZE;
-    std::cout<<"m_active "<<m_active<<" m_rect.y "<<m_rect.y<<std::endl;
     SDL_BlitSurface(m_surf_active, NULL, screen, &m_rect);
 
     for(size_t ii=0;ii<AMOUNT_ENTRIES;ii++){

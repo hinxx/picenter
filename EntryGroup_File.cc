@@ -17,6 +17,10 @@
 extern Log DebugLog;
 #endif
 
+std::string& string_replace(std::string& input, const char* toreplace, const char* with){
+    return input.replace(input.find(toreplace), sizeof(toreplace)-3, with);
+}
+
 typedef std::list<DirFile> DirFileList;
 
 DirFileList& getDirFileList(const std::string base){
@@ -109,10 +113,10 @@ DirFileSorted sortDirFileList(DirFileList& list){
     }
 
 #ifdef LOG
-    DebugLog<<"cnt_dirs:";
-    DebugLog<<cnt_dirs;
-    DebugLog<<"cnt_files:";
-    DebugLog<<cnt_files;
+    //DebugLog<<"cnt_dirs:";
+    //DebugLog<<cnt_dirs;
+    //DebugLog<<"cnt_files:";
+    //DebugLog<<cnt_files;
 #endif
 
     //std::vector<std::string>* ptr_list_dirs	= new std::vector<std::string>(cnt_dirs);
@@ -130,16 +134,16 @@ DirFileSorted sortDirFileList(DirFileList& list){
     }
 
 #ifdef LOG
-    DebugLog<<"";
-    DebugLog<<"DIRS";
-    for(int ii=0;ii<cnt_dirs;ii++){
-	DebugLog << (*ptr_list_dirs)[ii].c_str();
-    }
-    DebugLog<<"";
-    DebugLog<<"FILES";
-    for(int ii=0;ii<cnt_files;ii++){
-	DebugLog <<(*ptr_list_files)[ii].c_str();
-    }
+    //DebugLog<<"";
+    //DebugLog<<"DIRS";
+    //for(int ii=0;ii<cnt_dirs;ii++){
+    //    DebugLog << (*ptr_list_dirs)[ii].c_str();
+    //}
+    //DebugLog<<"";
+    //DebugLog<<"FILES";
+    //for(int ii=0;ii<cnt_files;ii++){
+    //    DebugLog <<(*ptr_list_files)[ii].c_str();
+    //}
 #endif
 
     //std::sort(ptr_list_dirs->begin(),	ptr_list_dirs->end(),	strcompare);	
@@ -242,7 +246,15 @@ void EntryGroup_File::pressReturn(){
 
 		   // std::cout<<filepath<<std::endl;
 		   //filepath.replace(filepath.find(" "), filepath.size(), "\\ ");
+		   DebugLog << filepath.c_str();
+		   //filepath = string_replace(filepath, "'", "\\'");
+		   //filepath = string_replace(filepath, "(", "\\(");
+		   //filepath = string_replace(filepath, ")", "\\)");
+		   //filepath = string_replace(filepath, " ", "\\ ");
+		   DebugLog << filepath.c_str();
+
 		   cmd += "'"+filepath+"'";
+		   //cmd += filepath;
 
 		   SDL_FreeSurface(screen);
 		   TTF_Quit();
