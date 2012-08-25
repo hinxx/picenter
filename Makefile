@@ -1,10 +1,10 @@
-CC	= g++
-HOST	= $(uname -n)
+CC	:= g++
+HOST	:= $(shell uname -n)
 
-ifeq (HOST, raspberrypi)
-	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins -DPI
+ifeq ($(HOST), raspberrypi)
+	CFLAGS	:= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins -DPI
 else
-	CFLAGS	= -Wall -Iplugins -I/usr/local/include -L/usr/local/lib
+	CFLAGS	:= -Wall -Iplugins -I/usr/local/include -L/usr/local/lib
 endif
 
 LDFLAGS	= -lSDL -lSDL_ttf
@@ -18,7 +18,7 @@ ifdef LOG
     CFLAGS += -DLOG
 endif
 
-picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak
+picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak conf.h
 	$(CC) $(CFLAGS) -o picenter $(OBJ) $(OBJPLUGINS) $(LDFLAGS)
 
 %.o: %.cc

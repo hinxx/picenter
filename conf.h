@@ -11,9 +11,8 @@
 #define ENTRY_Y		10
 
 /* Font preferences */
-//#define FONT	    "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
-#define FONT	    "/usr/local/lib/X11/fonts/dejavu/DejaVuSansMono.ttf"
-#define FONT2	    "/usr/local/lib/X11/fonts/dejavu/DejaVuSansMono-Bold.ttf"
+#define FONT	    "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
+#define FONT2	    "/usr/share/fonts/truetype/freefont/FreeMono-Bold.ttf"
 #define FONTSIZE    60
 
 /* GUI Colors */
