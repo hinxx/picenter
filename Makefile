@@ -4,7 +4,7 @@ HOST	= $(uname -a)
 ifeq (HOST, raspberrypi)
 	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins
 else
-	CFLAGS	= -Wall -Iplugins
+	CFLAGS	= -Wall -Iplugins -I/usr/local/include -L/usr/local/lib
 endif
 
 LDFLAGS	= -lSDL -lSDL_ttf
