@@ -6,17 +6,14 @@
 #include <iostream>
 
 EntryGroup::EntryGroup(){
-    SDL_Color color_blue;
-    color_blue.r = 0;
-    color_blue.g = 0;
-    color_blue.b = 255;
+    const SDL_VideoInfo* curmode = SDL_GetVideoInfo();
 
-    m_surf_active = SDL_CreateRGBSurface(SDL_SWSURFACE, 1750, FONTSIZE, 16, 255, 255, 255, 255);
-    SDL_FillRect(m_surf_active, NULL, SDL_MapRGB(screen->format, 0, 0, 255));
+    m_surf_active = SDL_CreateRGBSurface(SDL_SWSURFACE, curmode->current_w, FONTSIZE, (int)curmode->vfmt->BitsPerPixel, COLOR_MARKED_R, COLOR_MARKED_G, COLOR_MARKED_B, 255);
+    SDL_FillRect(m_surf_active, NULL, SDL_MapRGB(screen->format, COLOR_MARKED_R, COLOR_MARKED_G, COLOR_MARKED_B));
 
     m_rect.w = FONTSIZE;
     m_rect.h = FONTSIZE;
-    m_rect.x = 10;
+    m_rect.x = 0;
 
     // need to be fixed
     m_rect2.w = 200;

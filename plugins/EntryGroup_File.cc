@@ -273,8 +273,7 @@ void EntryGroup_File::pressReturn(){
 }
 
 void EntryGroup_File::draw(){
-    std::cout<<"EntryGroup_File::draw"<<std::endl;
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 255, 255, 255));
+    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, COLOR_BACK_R, COLOR_BACK_G, COLOR_BACK_B));
 
     EntryGroup::draw();
 
@@ -308,23 +307,23 @@ void EntryGroup_File::render(){
 
 		SDL_Color color;
 		if(m_entries[ii]->isDir()){
-		    color.r = 0;
-		    color.g = 0;
-		    color.b = 255;
+		    color.r = COLOR_DIR_R;
+		    color.g = COLOR_DIR_G;
+		    color.b = COLOR_DIR_B;
 		}
 		else{
-		    color.r = 0;
-		    color.g = 0;
-		    color.b = 0;
+		    color.r = COLOR_FRONT_R;
+		    color.g = COLOR_FRONT_G;
+		    color.b = COLOR_FRONT_B;
 		}
 
 		EntryGroup::render(ii-pos, str_render.c_str(), color);
 	    }
 	    else{
 		SDL_Color color;
-		color.r = 255;
-		color.g = 0;
-		color.b = 0;
+		color.r = COLOR_DIR_R;
+		color.g = COLOR_DIR_G;
+		color.b = COLOR_DIR_B;
 
 		EntryGroup::render(ii-pos, "..", color);
 	    }

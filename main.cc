@@ -33,6 +33,6 @@ int main(){
 	while(SDL_PollEvent(&event)){
 	    grp->input(event);
 	}
-	SDL_Delay(20);
+	SDL_Delay(WAIT_TIME);
     }
 }
