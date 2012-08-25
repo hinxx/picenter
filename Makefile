@@ -2,7 +2,7 @@ CC	= g++
 HOST	= $(uname -a)
 
 ifeq (HOST, raspberrypi)
-	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins
+	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins -DPI
 else
 	CFLAGS	= -Wall -Iplugins -I/usr/local/include -L/usr/local/lib
 endif
@@ -10,7 +10,7 @@ endif
 LDFLAGS	= -lSDL -lSDL_ttf
 
 OBJ = main.o generic.o
-OBJPLUGINS = plugins/EntryGroup.o plugins/EntryGroup_File.o
+OBJPLUGINS = plugins/SimpleEntry.o plugins/PluginEntry.o plugins/PluginFile.o
 
 include settings.mak
 

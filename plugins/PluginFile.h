@@ -5,8 +5,8 @@
 #include <list>
 #include <iostream>
 
-#include "EntryGroup.h"
-#include "conf.h"
+#include "PluginEntry.h"
+#include "../conf.h"
 
 class DirFile{
     public:
@@ -23,10 +23,10 @@ class DirFile{
 	char type;
 };
 
-class EntryGroup_File : public EntryGroup{
+class PluginFile : public PluginEntry{
     public:
-	EntryGroup_File() : EntryGroup() { switchDir(HOME); }
-	~EntryGroup_File()  {}
+	PluginFile() : PluginEntry() { changeDir(PLUGIN_VIDEO_HOME); }
+	~PluginFile()  {}
 
 	virtual void pressReturn();
 
@@ -34,12 +34,12 @@ class EntryGroup_File : public EntryGroup{
 	virtual void render();
 	virtual void input(const SDL_Event& event);
 
-	virtual const unsigned short int getCountEntries() { return m_entries.size(); }
+	virtual const size_t getCountEntries() { return m_entries.size(); }
 
     private:
 	virtual const	unsigned short int  getNumberEntries() { return m_entries.size(); }
-			void		    switchDir(const std::string dir);
-			void		    switchDir(const std::string dir, const unsigned short int active);
+			void		    changeDir(const std::string dir);
+			void		    changeDir(const std::string dir, const unsigned short int active);
 			void		    clearList();
 
 	std::vector<DirFile*>	    m_entries;

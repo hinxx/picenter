@@ -1,5 +1,5 @@
-#include "EntryGroup_File.h"
-#include "conf.h"
+#include "PluginFile.h"
+#include "../conf.h"
 #include "../generic.h"
 #include "../Log.h"
 
@@ -161,7 +161,7 @@ DirFileSorted sortDirFileList(DirFileList& list){
 /* CLASS IMPLEMENTATION */
 
 
-void EntryGroup_File::clearList(){
+void PluginFile::clearList(){
     std::cout<<"clear list of files/dirs..."<<std::endl;
     //for(std::vector<Entry_File*>::iterator it=m_entries.begin(); it!= m_entries.end(); it++){
     //    delete *it;
@@ -169,8 +169,8 @@ void EntryGroup_File::clearList(){
     m_entries.clear();
 }
 
-void EntryGroup_File::switchDir(const std::string dir){
-    std::cout<<"switchDir: "<<dir<<std::endl;
+void PluginFile::changeDir(const std::string dir){
+    std::cout<<"changeDir: "<<dir<<std::endl;
     m_curDir = dir;
 
     // clear list
@@ -204,8 +204,8 @@ void EntryGroup_File::switchDir(const std::string dir){
     render();
 }
 
-void EntryGroup_File::switchDir(const std::string dir, const unsigned short int active){
-    switchDir(dir);
+void PluginFile::changeDir(const std::string dir, const unsigned short int active){
+    changeDir(dir);
     if(active>getCountEntries()-1)
 	m_active=getCountEntries()-1;
     else
@@ -215,7 +215,7 @@ void EntryGroup_File::switchDir(const std::string dir, const unsigned short int 
 
 #include <cstdlib>
 
-void EntryGroup_File::pressReturn(){
+void PluginFile::pressReturn(){
     switch(m_entries[m_active]->getType()){
 	case 0:{
 		   std::string str_curdir = m_curDir;
@@ -227,55 +227,52 @@ void EntryGroup_File::pressReturn(){
 		   else
 		       str_render = std::string("/");
 
-		   switchDir(str_render);
+		   changeDir(str_render);
 		   break;
 	       }
 
 	case 1:{
 		   std::cout<<"selected path: "<<m_entries[m_active]->getPath()<<std::endl;
-		   switchDir(m_entries[m_active]->getPath());
+		   changeDir(m_entries[m_active]->getPath());
 		   break;
 	       }
 
 	case 2:{
-		   std::string filepath = std::string(m_entries[m_active]->getPath());
-		   // Desktop
-		   //std::string cmd = "mplayer -fs ";
-		   // for Raspberry PI
-		   std::string cmd = "omxplayer --adev hdmi --refresh ";
+		   const std::string url = getEntry(m_active).getURL();
 
-		   // std::cout<<filepath<<std::endl;
-		   //filepath.replace(filepath.find(" "), filepath.size(), "\\ ");
-		   //DebugLog << filepath.c_str();
-		   //filepath = string_replace(filepath, "'", "\\'");
-		   //filepath = string_replace(filepath, "(", "\\(");
-		   //filepath = string_replace(filepath, ")", "\\)");
-		   //filepath = string_replace(filepath, " ", "\\ ");
-		   //DebugLog << filepath.c_str();
+#ifdef PI
+		   std::string cmd = "omxplayer --adev ";
+		   //std::string cmd = "omxplayer --adev ";
+		   cmd += ADEV;
+		   cmd += ADDCMD;
+#else
+		   std::string cmd = "mplayer";
+#endif
 
-		   cmd += "'"+filepath+"'";
-		   //cmd += filepath;
+		   cmd += " '"+url+"'";
 
 		   SDL_FreeSurface(screen);
 		   TTF_Quit();
 		   SDL_Quit();
 
-		   std::cout<<"OPEN "<<cmd<<std::endl;
 		   system(cmd.c_str());
 
 		   // workaround for OMXPlayer stealing the framebuffer
+#ifdef PI
 		   system("fbset -depth 8 && fbset -depth 16");
+#endif
 
 		   init();
+
 		   break;
 	       }
     }
 }
 
-void EntryGroup_File::draw(){
+void PluginFile::draw(){
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, COLOR_BACK_R, COLOR_BACK_G, COLOR_BACK_B));
 
-    EntryGroup::draw();
+    PluginEntry::draw();
 
     /*
        const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
@@ -288,16 +285,17 @@ void EntryGroup_File::draw(){
     SDL_Flip(screen); 
 }
 
-void EntryGroup_File::render(){
-    EntryGroup::clear();
+void PluginFile::render(){
+    PluginEntry::clearEntries();
 
-    std::cout<<"EntryGroup_File::render"<<std::endl;
-    const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
+    std::cout<<"PluginFile::render"<<std::endl;
+    //const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
     //std::cout<<pos<<" "<<m_entries.size()<<std::endl;
-    for(unsigned short int ii=pos; ii!=pos+AMOUNT_ENTRIES; ii++){
-	if(ii<m_entries.size())
+    //for(unsigned short int ii=pos; ii!=pos+AMOUNT_ENTRIES; ii++){
+    for(size_t ii=0; ii<getCountEntries(); ii++){
+	//if(ii<m_entries.size())
 	{
-	    std::cout<<ii<<" "<<m_entries[ii]->getPath()<< " "<<(int)m_entries[ii]->getType()<<" pos "<<pos<<std::endl;
+	    //std::cout<<ii<<" "<<m_entries[ii]->getPath()<< " "<<(int)m_entries[ii]->getType()<<" pos "<<pos<<std::endl;
 	    if(m_entries[ii]->getType()>0){
 		const std::string str_type = m_entries[ii]->getPath();
 		std::string str_render;
@@ -305,36 +303,39 @@ void EntryGroup_File::render(){
 		const size_t pos2 = str_type.rfind('/');
 		str_render = str_type.substr(pos2+1);
 
-		SDL_Color color;
+		//SDL_Color color;
 		if(m_entries[ii]->isDir()){
-		    color.r = COLOR_DIR_R;
-		    color.g = COLOR_DIR_G;
-		    color.b = COLOR_DIR_B;
+		    //color.r = COLOR_DIR_R;
+		    //color.g = COLOR_DIR_G;
+		    //color.b = COLOR_DIR_B;
+		    addEntry(str_render, str_type, COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
 		}
 		else{
-		    color.r = COLOR_FRONT_R;
-		    color.g = COLOR_FRONT_G;
-		    color.b = COLOR_FRONT_B;
+		    //color.r = COLOR_FRONT_R;
+		    //color.g = COLOR_FRONT_G;
+		    //color.b = COLOR_FRONT_B;
+		    addEntry(str_render, str_type, COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B);
 		}
 
-		EntryGroup::render(ii-pos, str_render.c_str(), color);
+		//PluginEntry::render(ii-pos, str_render.c_str(), color);
 	    }
 	    else{
-		SDL_Color color;
-		color.r = COLOR_DIR_R;
-		color.g = COLOR_DIR_G;
-		color.b = COLOR_DIR_B;
+		//SDL_Color color;
+		//color.r = COLOR_DIR_R;
+		//color.g = COLOR_DIR_G;
+		//color.b = COLOR_DIR_B;
 
-		EntryGroup::render(ii-pos, "..", color);
+		//PluginEntry::render(ii-pos, "..", color);
+		addEntry(std::string(".."), std::string(".."), COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
 	    }
 	    //render();
 	    //m_entries[ii]->render();
 	}
     }
-    std::cout<<"END EntryGroup_File::render"<<std::endl;
+    std::cout<<"END PluginFile::render"<<std::endl;
 }
 
-void EntryGroup_File::input(const SDL_Event& event){
+void PluginFile::input(const SDL_Event& event){
     if(event.type==SDL_KEYDOWN){
 	if(event.key.keysym.sym==SDLK_RETURN)
 	    pressReturn();
@@ -358,9 +359,9 @@ void EntryGroup_File::input(const SDL_Event& event){
 	    render();
 	}
 	else if(event.key.keysym.sym==SDLK_h)
-	    switchDir(HOME);
+	    changeDir(PLUGIN_VIDEO_HOME);
 	else if(event.key.keysym.sym==SDLK_r)
-	    switchDir(m_curDir, m_active);
+	    changeDir(m_curDir, m_active);
 	else if(event.key.keysym.sym==SDLK_PERIOD){
 		m_active = 0;
 		render();

@@ -7,8 +7,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
-#include "EntryGroup.h"
-#include "EntryGroup_File.h"
+#include "PluginBase.h"
+#include "PluginFile.h"
 #include "conf.h"
 #include "generic.h"
 #include "Log.h"
@@ -25,7 +25,7 @@ int main(){
 
     SDL_Event event;
 
-    EntryGroup* grp = new EntryGroup_File();
+    PluginBase* grp = new PluginFile();
 
     grp->draw();
 
