@@ -1,5 +1,5 @@
 CC	= g++
-HOST	= $(uname -a)
+HOST	= $(uname -n)
 
 ifeq (HOST, raspberrypi)
 	CFLAGS	= -Wall -march=armv6 -mfpu=vfp -mfloat-abi=hard -Iplugins -DPI
