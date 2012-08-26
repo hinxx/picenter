@@ -23,6 +23,11 @@ ifdef PLUGIN_VIDEO
     CFLAGS += -DPLUGIN_VIDEO
 endif
 
+ifdef PLUGIN_VIET
+    OBJPLUGINS += plugins/PluginViet.o
+    CFLAGS += -DPLUGIN_VIET
+endif
+
 picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak conf.h
 	$(CC) $(CFLAGS) -o picenter $(OBJ) $(OBJPLUGINS) $(LDFLAGS)
 

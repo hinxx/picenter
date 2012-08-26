@@ -8,12 +8,19 @@
 #include "PluginFile.h"
 #endif
 
+#ifdef PLUGIN_VIET
+#include "PluginViet.h"
+#endif
+
 extern SDL_Surface* screen;
 extern PluginBase* grp;
 
 PluginChooser::PluginChooser(){
 #ifdef PLUGIN_VIDEO
     addEntry("Video files", "VIDEO", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+#endif
+#ifdef PLUGIN_VIET
+    addEntry("Vietnam live TV", "VIET", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
 #endif
 
     draw();
@@ -24,6 +31,12 @@ void PluginChooser::pressReturn(){
     if(getEntry(m_active).getURL()=="VIDEO"){
 	delete this;
 	grp = new PluginFile();
+    }
+#endif
+#ifdef PLUGIN_VIET
+    if(getEntry(m_active).getURL()=="VIET"){
+	delete this;
+	grp = new PluginViet();
     }
 #endif
 }

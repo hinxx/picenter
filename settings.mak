@@ -7,3 +7,6 @@
 
 # Video plugin
 PLUGIN_VIDEO := 1
+
+# Vietnam live TV plugin
+PLUGIN_VIET := 1
