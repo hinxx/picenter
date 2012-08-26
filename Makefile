@@ -28,6 +28,11 @@ ifdef PLUGIN_VIET
     CFLAGS += -DPLUGIN_VIET
 endif
 
+ifdef PLUGIN_JUPITERBROADCASTING
+    OBJPLUGINS += plugins/PluginJupiterbroadcasting.o
+    CFLAGS += -DPLUGIN_JUPITERBROADCASTING
+endif
+
 picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak conf.h
 	$(CC) $(CFLAGS) -o picenter $(OBJ) $(OBJPLUGINS) $(LDFLAGS)
 

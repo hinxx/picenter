@@ -10,3 +10,6 @@ PLUGIN_VIDEO := 1
 
 # Vietnam live TV plugin
 PLUGIN_VIET := 1
+
+# Jupiterbroadcasting plugin
+PLUGIN_JUPITERBROADCASTING := 1

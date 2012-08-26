@@ -12,6 +12,10 @@
 #include "PluginViet.h"
 #endif
 
+#ifdef PLUGIN_JUPITERBROADCASTING
+#include "PluginJupiterbroadcasting.h"
+#endif
+
 extern SDL_Surface* screen;
 extern PluginBase* grp;
 
@@ -21,6 +25,9 @@ PluginChooser::PluginChooser(){
 #endif
 #ifdef PLUGIN_VIET
     addEntry("Vietnam live TV", "VIET", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+#endif
+#ifdef PLUGIN_VIET
+    addEntry("Jupiterbroadcasting", "JUPITERBROADCASTING", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
 #endif
 
     draw();
@@ -37,6 +44,12 @@ void PluginChooser::pressReturn(){
     if(getEntry(m_active).getURL()=="VIET"){
 	delete this;
 	grp = new PluginViet();
+    }
+#endif
+#ifdef PLUGIN_JUPITERBROADCASTING
+    if(getEntry(m_active).getURL()=="JUPITERBROADCASTING"){
+	delete this;
+	grp = new PluginJupiterbroadcasting();
     }
 #endif
 }
