@@ -10,14 +10,18 @@ extern PluginBase* grp;
 
 #include<iostream>
 PluginViet2::PluginViet2(){
-    addEntry(new SimpleEntryURL("VTV3", "", COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B));
+    my_entries.clear();
+
+    addEntry(new SimpleEntryURL(std::string("VTV3"), std::string(""), COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B));
     my_entries.push_back(LabelLink2("VTV3", "rtmp://66.160.142.197:1935/live/vtv31", "http://vtc.com.vn/player.swf", "http://vtc.com.vn/#/VOX3/27"));
 
     draw();
 }
 
 void PluginViet2::input(const SDL_Event& event){
+    std::cout<<"HA"<<std::endl;
     PluginEntry::input(event);
+    std::cout<<"HA"<<std::endl;
 
     if(event.type==SDL_KEYDOWN){
 	if(event.key.keysym.sym==SDLK_ESCAPE){

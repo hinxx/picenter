@@ -3,6 +3,9 @@
 # Logging support, should be disabled right now.
 #LOG := 1
 
+# Debug support
+DEBUG := !
+
 # --- Plugins ---
 
 # Video plugin

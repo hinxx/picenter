@@ -43,25 +43,25 @@ PluginChooser::PluginChooser(){
 void PluginChooser::pressReturn(){
 #ifdef PLUGIN_VIDEO
     if(getEntry(m_active).getURL()=="VIDEO"){
-	delete this;
+	//delete this;
 	grp = new PluginFile();
     }
 #endif
 #ifdef PLUGIN_VIET
     if(getEntry(m_active).getURL()=="VIET"){
-	delete this;
+	//delete this;
 	grp = new PluginViet();
     }
 #endif
 #ifdef PLUGIN_VIET2
     if(getEntry(m_active).getURL()=="VIET2"){
-	delete this;
+	//delete this;
 	grp = new PluginViet2();
     }
 #endif
 #ifdef PLUGIN_JUPITERBROADCASTING
     if(getEntry(m_active).getURL()=="JUPITERBROADCASTING"){
-	delete this;
+	//delete this;
 	grp = new PluginJupiterbroadcasting();
     }
 #endif

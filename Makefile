@@ -18,6 +18,10 @@ ifdef LOG
     CFLAGS += -DLOG
 endif
 
+ifdef DEBUG
+    CFLAGS += -g
+endif
+
 ifdef PLUGIN_VIDEO
     OBJPLUGINS += plugins/PluginFile.o plugins/SimpleEntryFile.o
     CFLAGS += -DPLUGIN_VIDEO
