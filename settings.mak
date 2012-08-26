@@ -11,5 +11,8 @@ PLUGIN_VIDEO := 1
 # Vietnam live TV plugin
 PLUGIN_VIET := 1
 
+# Vietnam live TV plugin #2 (RTMP streams)
+PLUGIN_VIET2 := 1
+
 # Jupiterbroadcasting plugin
 PLUGIN_JUPITERBROADCASTING := 1

@@ -28,6 +28,11 @@ ifdef PLUGIN_VIET
     CFLAGS += -DPLUGIN_VIET
 endif
 
+ifdef PLUGIN_VIET2
+    OBJPLUGINS += plugins/PluginViet2.o
+    CFLAGS += -DPLUGIN_VIET2
+endif
+
 ifdef PLUGIN_JUPITERBROADCASTING
     OBJPLUGINS += plugins/PluginJupiterbroadcasting.o
     CFLAGS += -DPLUGIN_JUPITERBROADCASTING

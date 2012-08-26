@@ -8,6 +8,11 @@
 
 extern TTF_Font* font;
 
+SimpleEntry::SimpleEntry(const std::string& n_label, const char colorR, const char colorG, const char colorB)
+{
+    render(n_label, "", colorR, colorG, colorB);
+}
+
 SimpleEntry::SimpleEntry(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB)
 {
     render(n_label, n_url, colorR, colorG, colorB);

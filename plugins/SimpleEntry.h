@@ -7,6 +7,7 @@
 class SimpleEntry{
     public:
 	SimpleEntry() {}
+	SimpleEntry(const std::string& n_label, const char colorR, const char colorG, const char colorB);
 	SimpleEntry(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB);
 	~SimpleEntry();
 

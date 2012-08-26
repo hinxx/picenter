@@ -12,6 +12,10 @@
 #include "PluginViet.h"
 #endif
 
+#ifdef PLUGIN_VIET2
+#include "PluginViet2.h"
+#endif
+
 #ifdef PLUGIN_JUPITERBROADCASTING
 #include "PluginJupiterbroadcasting.h"
 #endif
@@ -26,7 +30,10 @@ PluginChooser::PluginChooser(){
 #ifdef PLUGIN_VIET
     addEntry("Vietnam live TV", "VIET", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
 #endif
-#ifdef PLUGIN_VIET
+#ifdef PLUGIN_VIET2
+    addEntry("Vietnam live TV (RTMP streams)", "VIET2", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+#endif
+#ifdef PLUGIN_JUPITERBROADCASTING
     addEntry("Jupiterbroadcasting", "JUPITERBROADCASTING", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
 #endif
 
@@ -44,6 +51,12 @@ void PluginChooser::pressReturn(){
     if(getEntry(m_active).getURL()=="VIET"){
 	delete this;
 	grp = new PluginViet();
+    }
+#endif
+#ifdef PLUGIN_VIET2
+    if(getEntry(m_active).getURL()=="VIET2"){
+	delete this;
+	grp = new PluginViet2();
     }
 #endif
 #ifdef PLUGIN_JUPITERBROADCASTING
