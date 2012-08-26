@@ -9,9 +9,21 @@ extern SDL_Surface* screen;
 extern PluginBase* grp;
 
 PluginViet::PluginViet(){
-    addEntry(new SimpleEntryURL("VTV1", std::string(LINK_VTV1), COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B));
+    std::list<LabelLink> lst = getLabelLinkList();
+    for(std::list<LabelLink>::iterator it=lst.begin();it!=lst.end();it++){
+	addEntry(new SimpleEntryURL(it->label, it->url, COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B));
+    }
 
     draw();
+}
+
+std::list<LabelLink>& PluginViet::getLabelLinkList(){
+    std::list<LabelLink>* ptr_lst = new std::list<LabelLink>;
+
+    ptr_lst->push_back(LabelLink("VTV1", LINK_VTV1));
+    ptr_lst->push_back(LabelLink("VTV2", LINK_VTV2));
+
+    return *ptr_lst;
 }
 
 void PluginViet::input(const SDL_Event& event){
