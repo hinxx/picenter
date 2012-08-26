@@ -1,9 +1,12 @@
 #include "PluginChooser.h"
-#include "PluginFile.h"
 #include "../conf.h"
 
 #include <cstdlib>
 #include <SDL/SDL_ttf.h>
+
+#ifdef PLUGIN_VIDEO
+#include "PluginFile.h"
+#endif
 
 extern SDL_Surface* screen;
 extern PluginBase* grp;
@@ -17,14 +20,12 @@ PluginChooser::PluginChooser(){
 }
 
 void PluginChooser::pressReturn(){
-    //switch(getEntry(m_active).getURL()){
-    //    case "VIDEO":
-    //        grp = new PluginFile();
-    //}
+#ifdef PLUGIN_VIDEO
     if(getEntry(m_active).getURL()=="VIDEO"){
 	delete this;
 	grp = new PluginFile();
     }
+#endif
 }
 
 void PluginChooser::input(const SDL_Event& event){

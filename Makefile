@@ -10,7 +10,7 @@ endif
 LDFLAGS	= -lSDL -lSDL_ttf
 
 OBJ = main.o generic.o
-OBJPLUGINS = plugins/SimpleEntry.o plugins/SimpleEntryFile.o plugins/PluginEntry.o plugins/PluginFile.o plugins/PluginChooser.o
+OBJPLUGINS = plugins/SimpleEntry.o plugins/PluginEntry.o plugins/PluginChooser.o
 
 include settings.mak
 
@@ -19,6 +19,7 @@ ifdef LOG
 endif
 
 ifdef PLUGIN_VIDEO
+    OBJPLUGINS += plugins/PluginFile.o plugins/SimpleEntryFile.o
     CFLAGS += -DPLUGIN_VIDEO
 endif
 
