@@ -1,4 +1,6 @@
+#include "SimpleEntryFile.h"
 #include "PluginFile.h"
+#include "PluginChooser.h"
 #include "../conf.h"
 #include "../generic.h"
 #include "../Log.h"
@@ -17,11 +19,12 @@
 extern Log DebugLog;
 #endif
 
+extern SDL_Surface* screen;
+extern PluginBase* grp;
+
 std::string& string_replace(std::string& input, const char* toreplace, const char* with){
     return input.replace(input.find(toreplace), sizeof(toreplace)-3, with);
 }
-
-typedef std::list<DirFile> DirFileList;
 
 DirFileList& getDirFileList(const std::string base){
     //std::cout<<"BASE "<<base<<std::endl;
@@ -45,7 +48,7 @@ DirFileList& getDirFileList(const std::string base){
 		npath	= std::string(base)+std::string("/")+std::string(ent->d_name);
 
 	    DirFile* ll = new DirFile(npath, ndir);
-	    std::cout<<"    path: "<<ll->path<<std::endl;
+	    //std::cout<<"    path: "<<ll->path<<std::endl;
 	    list->push_back(*ll);
 	}
 	closedir(dir);
@@ -53,10 +56,6 @@ DirFileList& getDirFileList(const std::string base){
     return *list;
 }
 
-struct DirFileSorted{
-    std::vector<std::string>* ptr_list_dirs;
-    std::vector<std::string>* ptr_list_files;
-};
 
 bool strcompare(const std::string a, const std::string b){
     for(unsigned int ii=0;ii<std::min(a.size(), b.size());ii++){
@@ -66,7 +65,7 @@ bool strcompare(const std::string a, const std::string b){
     return false;
 }
 
-DirFileSorted sortDirFileList(DirFileList& list){
+DirFileSorted PluginFile::sortDirFileList(DirFileList& list){
     int cnt_dirs(0);
     int cnt_files(0);
 
@@ -74,20 +73,20 @@ DirFileSorted sortDirFileList(DirFileList& list){
     for(DirFileList::iterator it=list.begin();it!=list.end();it++){
 	//std::cout<<"	    path: "<<it->path<<std::endl;
 	if(
-		(it->path.substr(it->path.size()-2, it->path.size())=="..") ||
-		(it->path[it->path.size()-1]=='.')||
-		(it->path[it->path.rfind('/')+1]=='.')
+		(it->getURL().substr(it->getURL().size()-2, it->getURL().size())=="..") ||
+		(it->getURL()[it->getURL().size()-1]=='.')||
+		(it->getURL()[it->getURL().rfind('/')+1]=='.')
 	  ){
 	    //std::cout<<"ERASE"<<std::endl;
 	    it=list.erase(it);
 	    it--;
 	    continue;
 	}else if(it->isFile()){
-	    std::list<std::string> lst = it->getListFiletypes();
+	    std::list<std::string> lst = getListFiletypes();
 
 	    bool ok=false;
 	    for(std::list<std::string>::iterator itt=lst.begin();itt!=lst.end();itt++){
-		if(it->getPath().substr(it->getPath().size()-3)==*itt){
+		if(it->getURL().substr(it->getURL().size()-3)==*itt){
 		    ok=true;
 		}
 	    }
@@ -126,10 +125,10 @@ DirFileSorted sortDirFileList(DirFileList& list){
 
     for(DirFileList::iterator it=list.begin();it!=list.end();it++){
 	if(it->isDir()){
-	    ptr_list_dirs->push_back(it->path);
+	    ptr_list_dirs->push_back(it->getURL());
 	}
 	else if(it->isFile()){
-	    ptr_list_files->push_back(it->path);
+	    ptr_list_files->push_back(it->getURL());
 	}
     }
 
@@ -185,13 +184,19 @@ void PluginFile::changeDir(const std::string dir){
     //m_entries.resize(countEntries);
 
     //if(std::string(dir)!=std::string("/"))
-    m_entries.push_back(new DirFile("..", 0));
+    //m_entries.push_back(new SimpleEntryFile("..", 0));
+    //addEntry(std::string(".."), std::string(".."), COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
+	addEntry(new SimpleEntryFile("..", 0));
 
     for(std::vector<std::string>::iterator it=vec_all.ptr_list_dirs->begin(); it!=vec_all.ptr_list_dirs->end(); it++){
-	m_entries.push_back(new DirFile(it->c_str(), 1));
+	//m_entries.push_back(new SimpleEntryFile(it->c_str(), 1));
+	//addEntry(*it, *it, 1, COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
+	addEntry(new SimpleEntryFile(*it, 1));
     }
     for(std::vector<std::string>::iterator it=vec_all.ptr_list_files->begin(); it!=vec_all.ptr_list_files->end(); it++){
-	m_entries.push_back(new DirFile(it->c_str(), 2));
+	//m_entries.push_back(new SimpleEntryFile(it->c_str(), 2));
+	//addEntry(*it, *it, 2, COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B);
+	addEntry(new SimpleEntryFile(*it, 2));
     }
 
     std::cout<<"count files/dirs: "<<m_entries.size()-1<<std::endl;
@@ -201,7 +206,8 @@ void PluginFile::changeDir(const std::string dir){
 
     m_active = 0;
 
-    render();
+    draw();
+    //render();
 }
 
 void PluginFile::changeDir(const std::string dir, const unsigned short int active){
@@ -210,13 +216,13 @@ void PluginFile::changeDir(const std::string dir, const unsigned short int activ
 	m_active=getCountEntries()-1;
     else
 	m_active=active;
-    render();
+    //render();
 }
 
 #include <cstdlib>
 
 void PluginFile::pressReturn(){
-    switch(m_entries[m_active]->getType()){
+    switch(static_cast<SimpleEntryFile*>(m_entries[m_active])->getType()){
 	case 0:{
 		   std::string str_curdir = m_curDir;
 		   std::string str_render;
@@ -232,8 +238,8 @@ void PluginFile::pressReturn(){
 	       }
 
 	case 1:{
-		   std::cout<<"selected path: "<<m_entries[m_active]->getPath()<<std::endl;
-		   changeDir(m_entries[m_active]->getPath());
+		   std::cout<<"selected path: "<<m_entries[m_active]->getURL()<<std::endl;
+		   changeDir(m_entries[m_active]->getURL());
 		   break;
 	       }
 
@@ -269,24 +275,9 @@ void PluginFile::pressReturn(){
     }
 }
 
-void PluginFile::draw(){
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, COLOR_BACK_R, COLOR_BACK_G, COLOR_BACK_B));
-
-    PluginEntry::draw();
-
-    /*
-       const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
-       for(unsigned short int ii=pos; ii!=pos+AMOUNT_ENTRIES; ii++){
-       if(ii<m_entries.size())
-       m_entries[ii]->draw(ii%AMOUNT_ENTRIES);
-       }
-     */
-
-    SDL_Flip(screen); 
-}
-
+/*
 void PluginFile::render(){
-    PluginEntry::clearEntries();
+    //PluginEntry::clearEntries();
 
     std::cout<<"PluginFile::render"<<std::endl;
     //const unsigned short int pos = m_active-m_active%AMOUNT_ENTRIES;
@@ -295,16 +286,16 @@ void PluginFile::render(){
     for(size_t ii=0; ii<getCountEntries(); ii++){
 	//if(ii<m_entries.size())
 	{
-	    //std::cout<<ii<<" "<<m_entries[ii]->getPath()<< " "<<(int)m_entries[ii]->getType()<<" pos "<<pos<<std::endl;
-	    if(m_entries[ii]->getType()>0){
-		const std::string str_type = m_entries[ii]->getPath();
+	    //std::cout<<ii<<" "<<m_entries[ii]->getURL()<< " "<<(int)m_entries[ii]->getType()<<" pos "<<pos<<std::endl;
+	    if(static_cast<SimpleEntryFile*>(m_entries[ii])->getType()>0){
+		const std::string str_type = static_cast<SimpleEntryFile*>(m_entries[ii])->getURL();
 		std::string str_render;
 
 		const size_t pos2 = str_type.rfind('/');
 		str_render = str_type.substr(pos2+1);
 
 		//SDL_Color color;
-		if(m_entries[ii]->isDir()){
+		if(static_cast<SimpleEntryFile*>(m_entries[ii])->isDir()){
 		    //color.r = COLOR_DIR_R;
 		    //color.g = COLOR_DIR_G;
 		    //color.b = COLOR_DIR_B;
@@ -334,51 +325,34 @@ void PluginFile::render(){
     }
     std::cout<<"END PluginFile::render"<<std::endl;
 }
+*/
 
 void PluginFile::input(const SDL_Event& event){
+    PluginEntry::input(event);
+
     if(event.type==SDL_KEYDOWN){
-	if(event.key.keysym.sym==SDLK_RETURN)
-	    pressReturn();
-	else if(event.key.keysym.sym==SDLK_DOWN)
-	    pressDown();
-	else if(event.key.keysym.sym==SDLK_UP)
-	    pressUp();
-	else if(event.key.keysym.sym==SDLK_RIGHT){
-	    m_active += AMOUNT_ENTRIES;
-	    if(m_active>getCountEntries()-1)
-		m_active = getCountEntries()-1;
-
-	    render();
+	if(event.key.keysym.sym==SDLK_ESCAPE){
+	    delete this;
+	    grp = new PluginChooser();
 	}
-	else if(event.key.keysym.sym==SDLK_LEFT){
-	    if(m_active<AMOUNT_ENTRIES)
-		m_active=0;
-	    else
-		m_active -= AMOUNT_ENTRIES;
+	else{
+	    if(event.key.keysym.sym==SDLK_RETURN)
+		pressReturn();
+	    else if(event.key.keysym.sym==SDLK_h)
+		changeDir(PLUGIN_VIDEO_HOME);
+	    else if(event.key.keysym.sym==SDLK_r)
+		changeDir(m_curDir, m_active);
+	    else if(event.key.keysym.sym==SDLK_PERIOD){
+		    m_active = 0;
+		    draw();
+		}
 
-	    render();
+	    draw();
 	}
-	else if(event.key.keysym.sym==SDLK_h)
-	    changeDir(PLUGIN_VIDEO_HOME);
-	else if(event.key.keysym.sym==SDLK_r)
-	    changeDir(m_curDir, m_active);
-	else if(event.key.keysym.sym==SDLK_PERIOD){
-		m_active = 0;
-		render();
-		draw();
-	    }
-	else if(event.key.keysym.sym==SDLK_ESCAPE){
-	    SDL_FreeSurface(screen);
-	    TTF_Quit();
-	    SDL_Quit();
-	    exit(0);
-	}
-
-	draw();
     }
 }
 
-std::list<std::string>& DirFile::getListFiletypes(){
+std::list<std::string>& PluginFile::getListFiletypes(){
     std::list<std::string>* ret = new std::list<std::string>;
 
     ret->push_back(std::string("avi"));

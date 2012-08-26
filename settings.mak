@@ -2,3 +2,8 @@
 
 # Logging support, should be disabled right now.
 #LOG := 1
+
+# --- Plugins ---
+
+# Video plugin
+PLUGIN_VIDEO := 1

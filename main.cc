@@ -8,13 +8,15 @@
 #include <SDL/SDL_ttf.h>
 
 #include "PluginBase.h"
-#include "PluginFile.h"
+//#include "PluginFile.h"
+#include "PluginChooser.h"
 #include "conf.h"
 #include "generic.h"
 #include "Log.h"
 
 SDL_Surface* screen;
 TTF_Font* font;
+PluginBase* grp;
 
 #ifdef LOG
 Log DebugLog("debug.log");
@@ -25,7 +27,8 @@ int main(){
 
     SDL_Event event;
 
-    PluginBase* grp = new PluginFile();
+    //grp = new PluginFile();
+    grp = new PluginChooser();
 
     grp->draw();
 

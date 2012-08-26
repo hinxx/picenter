@@ -19,6 +19,10 @@ PluginEntry::PluginEntry(){
     m_rect2.w = 200;
     m_rect2.h = 200;
     m_rect2.x = 20;
+
+    m_active = 0;
+
+    draw();
 }
 
 PluginEntry::~PluginEntry(){
@@ -55,6 +59,8 @@ void PluginEntry::addEntry(const std::string& n_label, const std::string n_url, 
 }
 
 void PluginEntry::draw(){
+    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, COLOR_BACK_R, COLOR_BACK_G, COLOR_BACK_B));
+
     m_rect.y = ENTRY_Y+m_active%AMOUNT_ENTRIES*FONTSIZE;
     SDL_BlitSurface(m_surf_active, NULL, screen, &m_rect);
 
@@ -67,6 +73,8 @@ void PluginEntry::draw(){
 	    SDL_BlitSurface(m_entries[ii]->getSurface(), NULL, screen, &m_rect2);
 	}
     }
+
+    SDL_Flip(screen); 
 }
 
 void PluginEntry::clearEntries(){
@@ -74,4 +82,26 @@ void PluginEntry::clearEntries(){
 	delete m_entries[ii];
 
     m_entries.clear();
+}
+
+void PluginEntry::input(const SDL_Event& event){
+    if(event.type==SDL_KEYDOWN){
+	if(event.key.keysym.sym==SDLK_DOWN)
+	    pressDown();
+	else if(event.key.keysym.sym==SDLK_UP)
+	    pressUp();
+	else if(event.key.keysym.sym==SDLK_RIGHT){
+	    m_active += AMOUNT_ENTRIES;
+	    if(m_active>getCountEntries()-1)
+		m_active = getCountEntries()-1;
+	}
+	else if(event.key.keysym.sym==SDLK_LEFT){
+	    if(m_active<AMOUNT_ENTRIES)
+		m_active=0;
+	    else
+		m_active -= AMOUNT_ENTRIES;
+	}
+
+	draw();
+    }
 }

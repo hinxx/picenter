@@ -10,12 +10,16 @@ endif
 LDFLAGS	= -lSDL -lSDL_ttf
 
 OBJ = main.o generic.o
-OBJPLUGINS = plugins/SimpleEntry.o plugins/PluginEntry.o plugins/PluginFile.o
+OBJPLUGINS = plugins/SimpleEntry.o plugins/SimpleEntryFile.o plugins/PluginEntry.o plugins/PluginFile.o plugins/PluginChooser.o
 
 include settings.mak
 
 ifdef LOG
     CFLAGS += -DLOG
+endif
+
+ifdef PLUGIN_VIDEO
+    CFLAGS += -DPLUGIN_VIDEO
 endif
 
 picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak conf.h
@@ -26,3 +30,5 @@ picenter: $(OBJ) $(OBJPLUGINS) Makefile settings.mak conf.h
 
 clean:
 	rm -rf $(OBJ) $(OBJPLUGINS) picenter
+
+remake: clean picenter
