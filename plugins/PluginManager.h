@@ -1,11 +1,11 @@
-#ifndef PLUGIN_CHOOSER_H
-#define PLUGIN_CHOOSER_H
+#ifndef PLUGIN_MANAGER_H
+#define PLUGIN_MANAGER_H
 
 #include "PluginEntry.h"
 
-class PluginChooser : public PluginEntry{
+class PluginManager : public PluginEntry{
     public:
-	PluginChooser();
+	PluginManager();
 
 	virtual const char* title() { return "Plugin chooser"; }
 

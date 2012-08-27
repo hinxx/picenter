@@ -1,5 +1,5 @@
 #include "PluginViet2.h"
-#include "PluginChooser.h"
+#include "PluginManager.h"
 #include "../conf.h"
 #include "../generic.h"
 #include "SimpleEntryURL.h"
@@ -31,7 +31,7 @@ void PluginViet2::input(const SDL_Event& event){
     if(event.type==SDL_KEYDOWN){
 	if(event.key.keysym.sym==SDLK_ESCAPE){
 	    delete this;
-	    grp = new PluginChooser();
+	    grp = new PluginManager();
 	}
 	else{
 	    if(event.key.keysym.sym==SDLK_RETURN)

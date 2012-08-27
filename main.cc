@@ -8,8 +8,7 @@
 #include <SDL/SDL_ttf.h>
 
 #include "PluginBase.h"
-//#include "PluginFile.h"
-#include "PluginChooser.h"
+#include "PluginManager.h"
 #include "conf.h"
 #include "generic.h"
 #include "Log.h"
@@ -28,7 +27,7 @@ int main(){
     SDL_Event event;
 
     //grp = new PluginFile();
-    grp = new PluginChooser();
+    grp = new PluginManager();
 
     grp->draw();
 

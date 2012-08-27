@@ -1,4 +1,4 @@
-#include "PluginChooser.h"
+#include "PluginManager.h"
 #include "../conf.h"
 
 #include <cstdlib>
@@ -38,7 +38,7 @@ enum Plugin {
 #endif
 };
 
-PluginChooser::PluginChooser(){
+PluginManager::PluginManager(){
 #ifdef PLUGIN_VIDEO
     addEntry("Video files", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
 #endif
@@ -55,7 +55,7 @@ PluginChooser::PluginChooser(){
     draw();
 }
 
-void PluginChooser::pressReturn(){
+void PluginManager::pressReturn(){
 #ifdef PLUGIN_VIDEO
     if(m_active==VIDEO){
 	//delete this;
@@ -82,13 +82,13 @@ void PluginChooser::pressReturn(){
 #endif
 }
 
-void PluginChooser::input(const SDL_Event& event){
+void PluginManager::input(const SDL_Event& event){
     PluginEntry::input(event);
 
     if(event.type==SDL_KEYDOWN){
 	if(event.key.keysym.sym==SDLK_RETURN)
 	    pressReturn();
-	else if(event.key.keysym.sym==SDLK_F12){
+	else if(event.key.keysym.sym==SDLK_ESCAPE){
 	    SDL_FreeSurface(screen);
 	    TTF_Quit();
 	    SDL_Quit();
