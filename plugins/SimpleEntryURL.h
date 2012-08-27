@@ -6,11 +6,11 @@
 class SimpleEntryURL : public SimpleEntry{
     public:
 	SimpleEntryURL() {}
-	SimpleEntryURL(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB) : SimpleEntry(n_label, n_url, colorR, colorG, colorB) { m_url = n_url; }
+	SimpleEntryURL(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB) : SimpleEntry(n_label, colorR, colorG, colorB) { m_url = n_url; }
 
 	const std::string& getURL()	{ return m_url; }
 
-    private:
+    protected:
 	std::string m_url;
 };
 

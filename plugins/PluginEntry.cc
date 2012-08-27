@@ -1,4 +1,6 @@
 #include "PluginEntry.h"
+#include "SimpleEntry.h"
+#include "SimpleEntryURL.h"
 #include "../conf.h"
 #include "../generic.h"
 
@@ -51,9 +53,16 @@ void PluginEntry::pressUp(){
 	    draw();
 }
 
-void PluginEntry::addEntry(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB)
+void PluginEntry::addEntryURL(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB)
 {
-    SimpleEntry* nEntry = new SimpleEntry(n_label, n_url, colorR, colorG, colorB);
+    SimpleEntry* nEntry = new SimpleEntryURL(n_label, n_url, colorR, colorG, colorB);
+
+    m_entries.push_back(nEntry);
+}
+
+void PluginEntry::addEntry(const std::string& n_label, const char colorR, const char colorG, const char colorB)
+{
+    SimpleEntry* nEntry = new SimpleEntry(n_label, colorR, colorG, colorB);
 
     m_entries.push_back(nEntry);
 }

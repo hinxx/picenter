@@ -114,7 +114,7 @@ void PluginViet::input(const SDL_Event& event){
 }
 
 void PluginViet::pressReturn(){
-    const std::string url = getEntry(m_active).getURL();
+    const std::string url = static_cast<SimpleEntryURL*>(m_entries[m_active])->getURL();
 
 #ifdef PI
     std::string cmd = "omxplayer --adev ";

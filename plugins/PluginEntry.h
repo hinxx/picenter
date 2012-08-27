@@ -20,7 +20,8 @@ class PluginEntry : public PluginBase{
 	virtual const size_t getCountEntries() const { return m_entries.size(); }
 
 		void	addEntry(SimpleEntry* n_entry)	{ m_entries.push_back(n_entry); }
-		void	addEntry(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB);
+		void	addEntry(const std::string& n_label, const char colorR, const char colorG, const char colorB);
+		void	addEntryURL(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB);
 
 		SimpleEntry& getEntry(const size_t which)	{ return *(m_entries[which]); }
 		SimpleEntry& getMarkedEntry()			{ return *(m_entries[m_active]); }

@@ -10,22 +10,17 @@ extern TTF_Font* font;
 
 SimpleEntry::SimpleEntry(const std::string& n_label, const char colorR, const char colorG, const char colorB)
 {
-    render(n_label, std::string(""), colorR, colorG, colorB);
-}
-
-SimpleEntry::SimpleEntry(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB)
-{
-    render(n_label, n_url, colorR, colorG, colorB);
+    render(n_label, colorR, colorG, colorB);
 }
 
 SimpleEntry::~SimpleEntry()
 {
-    SDL_FreeSurface(m_surf);
+    if(m_surf)
+	SDL_FreeSurface(m_surf);
 }
 
-void SimpleEntry::render(const std::string& n_label, const std::string n_url, const char colorR, const char colorG, const char colorB){
+void SimpleEntry::render(const std::string& n_label, const char colorR, const char colorG, const char colorB){
     m_label = n_label;
-    m_url   = n_url;
 
     SDL_Color color;
     color.r = colorR;

@@ -238,13 +238,12 @@ void PluginFile::pressReturn(){
 	       }
 
 	case 1:{
-		   std::cout<<"selected path: "<<m_entries[m_active]->getURL()<<std::endl;
-		   changeDir(m_entries[m_active]->getURL());
+		   changeDir(static_cast<SimpleEntryFile*>(m_entries[m_active])->getURL());
 		   break;
 	       }
 
 	case 2:{
-		   const std::string url = getEntry(m_active).getURL();
+		   const std::string url = static_cast<SimpleEntryFile*>(m_entries[m_active])->getURL();
 
 #ifdef PI
 		   std::string cmd = "omxplayer --adev ";

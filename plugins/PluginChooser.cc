@@ -23,18 +23,33 @@
 extern SDL_Surface* screen;
 extern PluginBase* grp;
 
-PluginChooser::PluginChooser(){
+enum Plugin {
 #ifdef PLUGIN_VIDEO
-    addEntry("Video files", "VIDEO", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+    VIDEO,
 #endif
 #ifdef PLUGIN_VIET
-    addEntry("Vietnam live TV", "VIET", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+    VIET,
 #endif
 #ifdef PLUGIN_VIET2
-    addEntry("Vietnam live TV (RTMP streams)", "VIET2", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+    VIET2,
 #endif
 #ifdef PLUGIN_JUPITERBROADCASTING
-    addEntry("Jupiterbroadcasting", "JUPITERBROADCASTING", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+    JUPITERBROADCASTING,
+#endif
+};
+
+PluginChooser::PluginChooser(){
+#ifdef PLUGIN_VIDEO
+    addEntry("Video files", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+#endif
+#ifdef PLUGIN_VIET
+    addEntry("Vietnam live TV", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+#endif
+#ifdef PLUGIN_VIET2
+    addEntry("Vietnam live TV (RTMP streams)", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
+#endif
+#ifdef PLUGIN_JUPITERBROADCASTING
+    addEntry("Jupiterbroadcasting", COLOR_PLUGIN_R, COLOR_PLUGIN_G, COLOR_PLUGIN_B);
 #endif
 
     draw();
@@ -42,25 +57,25 @@ PluginChooser::PluginChooser(){
 
 void PluginChooser::pressReturn(){
 #ifdef PLUGIN_VIDEO
-    if(getEntry(m_active).getURL()=="VIDEO"){
+    if(m_active==VIDEO){
 	//delete this;
 	grp = new PluginFile();
     }
 #endif
 #ifdef PLUGIN_VIET
-    if(getEntry(m_active).getURL()=="VIET"){
+    if(m_active==VIET){
 	//delete this;
 	grp = new PluginViet();
     }
 #endif
 #ifdef PLUGIN_VIET2
-    if(getEntry(m_active).getURL()=="VIET2"){
+    if(m_active==VIET2){
 	//delete this;
 	grp = new PluginViet2();
     }
 #endif
 #ifdef PLUGIN_JUPITERBROADCASTING
-    if(getEntry(m_active).getURL()=="JUPITERBROADCASTING"){
+    if(m_active==JUPITERBROADCASTING){
 	//delete this;
 	grp = new PluginJupiterbroadcasting();
     }
@@ -73,7 +88,7 @@ void PluginChooser::input(const SDL_Event& event){
     if(event.type==SDL_KEYDOWN){
 	if(event.key.keysym.sym==SDLK_RETURN)
 	    pressReturn();
-	else if(event.key.keysym.sym==SDLK_ESCAPE){
+	else if(event.key.keysym.sym==SDLK_F12){
 	    SDL_FreeSurface(screen);
 	    TTF_Quit();
 	    SDL_Quit();

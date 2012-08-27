@@ -4,6 +4,7 @@
 #include<iostream>
 SimpleEntryFile::SimpleEntryFile(const std::string& n_url, const char n_type){
     m_type = n_type; 
+    m_url = n_url;
 
     if(m_type>0){
 	const std::string str_type = n_url;
@@ -14,15 +15,15 @@ SimpleEntryFile::SimpleEntryFile(const std::string& n_url, const char n_type){
 
 	//SDL_Color color;
 	if(isDir()){
-	    render(str_render, str_type, COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
+	    render(str_render, COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
 	}
 	else{
-	    render(str_render, str_type, COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B);
+	    render(str_render, COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B);
 	}
 
 	//PluginEntry::render(ii-pos, str_render.c_str(), color);
     }
     else{
-	render(std::string(".."), std::string(".."), COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
+	render(std::string(".."), COLOR_DIR_R, COLOR_DIR_G, COLOR_DIR_B);
     }
 }
