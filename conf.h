@@ -7,8 +7,8 @@
 
 /* GUI options */
 #define AMOUNT_ENTRIES 	15
-#define ENTRY_X		10
-#define ENTRY_Y		10
+#define ENTRY_X		150
+#define ENTRY_Y		150
 
 /* Font preferences */
 #define FONT	    "/usr/share/fonts/truetype/freefont/FreeMono.ttf"

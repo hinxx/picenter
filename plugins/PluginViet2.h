@@ -27,6 +27,8 @@ class PluginViet2 : public PluginEntry{
 
     private:
 	std::vector<LabelLink2> my_entries;
+
+	void add(const char* nlabel, const char* nurl, const char* nswfurl, const char* npageurl);
 };
 
 #endif

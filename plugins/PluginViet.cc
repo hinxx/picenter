@@ -23,8 +23,9 @@ std::list<LabelLink>& PluginViet::getLabelLinkList(){
     ptr_lst->push_back(LabelLink("VTV1", LINK_VTV1a));
     ptr_lst->push_back(LabelLink("VTV1 #2", LINK_VTV1b));
     ptr_lst->push_back(LabelLink("VTV2", LINK_VTV2));
-    ptr_lst->push_back(LabelLink("VTV3", LINK_VTV3a));
-    ptr_lst->push_back(LabelLink("VTV3 #2", LINK_VTV3b));
+    ptr_lst->push_back(LabelLink("VTV3", LINK_VTV3));
+    //ptr_lst->push_back(LabelLink("VTV3", LINK_VTV3a));
+    //ptr_lst->push_back(LabelLink("VTV3 #2", LINK_VTV3b));
     ptr_lst->push_back(LabelLink("VTV4", LINK_VTV4));
     ptr_lst->push_back(LabelLink("VTV6", LINK_VTV6));
     ptr_lst->push_back(LabelLink("VTV9", LINK_VTV9));

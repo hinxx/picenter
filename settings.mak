@@ -4,7 +4,7 @@
 #LOG := 1
 
 # Debug support
-DEBUG := !
+#DEBUG := !
 
 # --- Plugins ---
 
