@@ -22,7 +22,7 @@ class PluginViet2 : public PluginEntry{
 
 	virtual const char* title() { return "Vietnamese live TV"; }
 
-	virtual void input(const SDL_Event& event);
+	virtual bool input(const SDL_Event& event);
 	void pressReturn();
 
     private:

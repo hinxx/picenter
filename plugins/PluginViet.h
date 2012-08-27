@@ -79,13 +79,6 @@
 #define LINK_PHU_THO	    "rtmp://210.211.99.74/live/livestream"
 #define LINK_VINH_PHUC	    "rtmp://210.245.87.165/live/thvp"
 
-struct LabelLink{
-    LabelLink(const char* nlabel, const char* nurl) { label=std::string(nlabel); url=std::string(nurl); }
-
-    std::string label;
-    std::string url;
-};
-
 class PluginViet : public PluginEntry{
     public:
 	PluginViet();
@@ -93,11 +86,12 @@ class PluginViet : public PluginEntry{
 
 	virtual const char* title() { return "Vietnamese live TV"; }
 
-	virtual void input(const SDL_Event& event);
+	virtual bool input(const SDL_Event& event);
 	void pressReturn();
 
     private:
-	std::list<LabelLink>& getLabelLinkList();
+	inline void addLabelLink(const char* label, const char* url);
+	void addAll();
 };
 
 #endif

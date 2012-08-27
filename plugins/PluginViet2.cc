@@ -6,7 +6,8 @@
 #include <cstdlib>
 
 extern SDL_Surface* screen;
-extern PluginBase* grp;
+
+typedef PluginEntry __Base;
 
 #include<iostream>
 PluginViet2::PluginViet2(){
@@ -25,21 +26,17 @@ PluginViet2::PluginViet2(){
     draw();
 }
 
-void PluginViet2::input(const SDL_Event& event){
-    PluginEntry::input(event);
+bool PluginViet2::input(const SDL_Event& event){
+    if(__Base::input(event)==true)
+	return true;
+    else{
+	if(event.key.keysym.sym==SDLK_RETURN)
+	    pressReturn();
 
-    if(event.type==SDL_KEYDOWN){
-	if(event.key.keysym.sym==SDLK_ESCAPE){
-	    delete this;
-	    grp = new PluginManager();
-	}
-	else{
-	    if(event.key.keysym.sym==SDLK_RETURN)
-		pressReturn();
-
-	    draw();
-	}
+	draw();
     }
+
+    return false;
 }
 
 void PluginViet2::pressReturn(){

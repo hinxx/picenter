@@ -2,6 +2,7 @@
 #define PLUGIN_MANAGER_H
 
 #include "PluginEntry.h"
+#include "PluginBase.h"
 
 class PluginManager : public PluginEntry{
     public:
@@ -9,9 +10,14 @@ class PluginManager : public PluginEntry{
 
 	virtual const char* title() { return "Plugin chooser"; }
 
-	virtual void pressReturn();
+	virtual void	pressReturn();
 
-	virtual void input(const SDL_Event& event);
+	virtual bool	input(const SDL_Event& event);
+
+	virtual	void	draw();
+
+    private:
+	PluginBase* plugin;
 };
 
 #endif

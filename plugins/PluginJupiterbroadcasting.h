@@ -10,11 +10,10 @@
 class PluginJupiterbroadcasting : public PluginEntry{
     public:
 	PluginJupiterbroadcasting();
-	~PluginJupiterbroadcasting()  {}
 
 	virtual const char* title() { return "Jupiterbroadcasting"; }
 
-	virtual void input(const SDL_Event& event);
+	virtual bool input(const SDL_Event& event);
 	void pressReturn();
 };
 

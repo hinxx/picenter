@@ -15,7 +15,6 @@
 
 SDL_Surface* screen;
 TTF_Font* font;
-PluginBase* grp;
 
 #ifdef LOG
 Log DebugLog("debug.log");
@@ -26,14 +25,13 @@ int main(){
 
     SDL_Event event;
 
-    //grp = new PluginFile();
-    grp = new PluginManager();
+    PluginManager manager = PluginManager();
 
-    grp->draw();
+    manager.draw();
 
     while(true){
 	while(SDL_PollEvent(&event)){
-	    grp->input(event);
+	    manager.input(event);
 	}
 	SDL_Delay(WAIT_TIME);
     }

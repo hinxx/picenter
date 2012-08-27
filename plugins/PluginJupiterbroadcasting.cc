@@ -6,7 +6,8 @@
 #include <cstdlib>
 
 extern SDL_Surface* screen;
-extern PluginBase* grp;
+
+typedef PluginEntry __Base;
 
 PluginJupiterbroadcasting::PluginJupiterbroadcasting(){
     addEntry(new SimpleEntryURL(std::string("LIVE"), std::string("http://videocdn-us.geocdn.scaleengine.net/jblive-iphone/live/jblive.stream/playlist.m3u8?wowzasessionid=1759286145"), COLOR_FRONT_R, COLOR_FRONT_G, COLOR_FRONT_B));
@@ -14,21 +15,19 @@ PluginJupiterbroadcasting::PluginJupiterbroadcasting(){
     draw();
 }
 
-void PluginJupiterbroadcasting::input(const SDL_Event& event){
-    PluginEntry::input(event);
-
-    if(event.type==SDL_KEYDOWN){
-	if(event.key.keysym.sym==SDLK_ESCAPE){
-	    delete this;
-	    grp = new PluginManager();
-	}
-	else{
+bool PluginJupiterbroadcasting::input(const SDL_Event& event){
+    if(__Base::input(event)==true)
+	return true;
+    else{
+	if(event.type==SDL_KEYDOWN){
 	    if(event.key.keysym.sym==SDLK_RETURN)
 		pressReturn();
 
 	    draw();
 	}
     }
+
+    return false;
 }
 
 void PluginJupiterbroadcasting::pressReturn(){

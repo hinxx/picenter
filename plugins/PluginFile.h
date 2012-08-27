@@ -35,8 +35,7 @@ class PluginFile : public PluginEntry{
 
 	virtual const char* title() { return "Video files"; }
 
-	//virtual void render();
-	virtual void input(const SDL_Event& event);
+	virtual bool input(const SDL_Event& event);
 	void pressReturn();
 
     protected:

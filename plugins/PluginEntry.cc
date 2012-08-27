@@ -7,6 +7,8 @@
 #include <SDL/SDL_ttf.h>
 #include <iostream>
 
+typedef PluginBase __Base;
+
 PluginEntry::PluginEntry(){
     const SDL_VideoInfo* curmode = SDL_GetVideoInfo();
 
@@ -29,8 +31,9 @@ PluginEntry::PluginEntry(){
 
 PluginEntry::~PluginEntry(){
     SDL_FreeSurface(m_surf_active);
-//    for(int ii=0;ii<AMOUNT_ENTRIES;ii++)
-//	SDL_FreeSurface(m_surfaces[ii]);
+
+    for(size_t ii=0;ii<m_entries.size();ii++)
+	delete m_entries[ii];
 }
 
 void PluginEntry::pressDown(){
@@ -93,24 +96,30 @@ void PluginEntry::clearEntries(){
     m_entries.clear();
 }
 
-void PluginEntry::input(const SDL_Event& event){
-    if(event.type==SDL_KEYDOWN){
-	if(event.key.keysym.sym==SDLK_DOWN)
-	    pressDown();
-	else if(event.key.keysym.sym==SDLK_UP)
-	    pressUp();
-	else if(event.key.keysym.sym==SDLK_RIGHT){
-	    m_active += AMOUNT_ENTRIES;
-	    if(m_active>getCountEntries()-1)
-		m_active = getCountEntries()-1;
-	}
-	else if(event.key.keysym.sym==SDLK_LEFT){
-	    if(m_active<AMOUNT_ENTRIES)
-		m_active=0;
-	    else
-		m_active -= AMOUNT_ENTRIES;
-	}
+bool PluginEntry::input(const SDL_Event& event){
+    if(__Base::input(event)==true)
+	return true;
+    else{
+	if(event.type==SDL_KEYDOWN){
+	    if(event.key.keysym.sym==SDLK_DOWN)
+		pressDown();
+	    else if(event.key.keysym.sym==SDLK_UP)
+		pressUp();
+	    else if(event.key.keysym.sym==SDLK_RIGHT){
+		m_active += AMOUNT_ENTRIES;
+		if(m_active>getCountEntries()-1)
+		    m_active = getCountEntries()-1;
+	    }
+	    else if(event.key.keysym.sym==SDLK_LEFT){
+		if(m_active<AMOUNT_ENTRIES)
+		    m_active=0;
+		else
+		    m_active -= AMOUNT_ENTRIES;
+	    }
 
-	draw();
+	    draw();
+	}
     }
+
+    return false;
 }

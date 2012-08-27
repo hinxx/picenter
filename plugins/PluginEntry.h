@@ -14,10 +14,10 @@ class PluginEntry : public PluginBase{
 	~PluginEntry();
 
 	virtual	void	draw();
-	virtual	void	input(const SDL_Event& event);
+	virtual	bool	input(const SDL_Event& event);
 		void	clearEntries();
 
-	virtual const size_t getCountEntries() const { return m_entries.size(); }
+	inline  const size_t getCountEntries() const { return m_entries.size(); }
 
 		void	addEntry(SimpleEntry* n_entry)	{ m_entries.push_back(n_entry); }
 		void	addEntry(const std::string& n_label, const char colorR, const char colorG, const char colorB);

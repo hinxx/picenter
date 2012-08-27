@@ -15,8 +15,9 @@ SimpleEntry::SimpleEntry(const std::string& n_label, const char colorR, const ch
 
 SimpleEntry::~SimpleEntry()
 {
-    if(m_surf)
+    if(m_surf){
 	SDL_FreeSurface(m_surf);
+    }
 }
 
 void SimpleEntry::render(const std::string& n_label, const char colorR, const char colorG, const char colorB){

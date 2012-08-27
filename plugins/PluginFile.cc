@@ -20,7 +20,8 @@ extern Log DebugLog;
 #endif
 
 extern SDL_Surface* screen;
-extern PluginBase* grp;
+
+typedef PluginEntry __Base;
 
 std::string& string_replace(std::string& input, const char* toreplace, const char* with){
     return input.replace(input.find(toreplace), sizeof(toreplace)-3, with);
@@ -53,6 +54,7 @@ DirFileList& getDirFileList(const std::string base){
 	}
 	closedir(dir);
     }
+
     return *list;
 }
 
@@ -326,15 +328,11 @@ void PluginFile::render(){
 }
 */
 
-void PluginFile::input(const SDL_Event& event){
-    PluginEntry::input(event);
-
-    if(event.type==SDL_KEYDOWN){
-	if(event.key.keysym.sym==SDLK_ESCAPE){
-	    delete this;
-	    grp = new PluginManager();
-	}
-	else{
+bool PluginFile::input(const SDL_Event& event){
+    if(__Base::input(event)==true)
+	return true;
+    else{
+	if(event.type==SDL_KEYDOWN){
 	    if(event.key.keysym.sym==SDLK_RETURN)
 		pressReturn();
 	    else if(event.key.keysym.sym==SDLK_h)
@@ -349,6 +347,8 @@ void PluginFile::input(const SDL_Event& event){
 	    draw();
 	}
     }
+
+    return false;
 }
 
 std::list<std::string>& PluginFile::getListFiletypes(){

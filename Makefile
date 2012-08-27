@@ -10,7 +10,7 @@ endif
 LDFLAGS	= -lSDL -lSDL_ttf
 
 OBJ = main.o generic.o
-OBJPLUGINS = plugins/SimpleEntry.o plugins/PluginEntry.o plugins/PluginManager.o
+OBJPLUGINS = plugins/SimpleEntry.o plugins/PluginBase.o plugins/PluginEntry.o plugins/PluginManager.o
 
 include settings.mak
 
