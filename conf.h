@@ -11,7 +11,7 @@
 #define ENTRY_Y		50
 
 /* Font preferences */
-#define FONT	    "/usr/share/fonts/truetype/freefont/FreeMono-Bold.ttf"
+#define FONT	    "/usr/share/fonts/truetype/freefont/FreeMono.ttf"
 #define FONT2	    "/usr/share/fonts/truetype/freefont/FreeMono-Bold.ttf"
 #define FONTSIZE    60
 
