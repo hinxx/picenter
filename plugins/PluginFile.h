@@ -9,26 +9,31 @@
 #include "PluginEntry.h"
 #include "../conf.h"
 
-struct DirFile{
-    DirFile(const std::string n_path, const char n_type) { m_path = n_path; m_type = n_type; }
+class DirFile
+{
+    public:
+	DirFile(const std::string n_path, const bool n_type) { m_path = n_path; m_type = n_type; }
 
-    const bool isDir()		{ return m_type==1; }
-    const bool isFile()		{ return m_type==2; }
-    const char getType()	{ return m_type; }
-    const std::string getURL()		{ return m_path; }
+	const bool isDir()		{ return m_type==true; }
+	const bool isFile()		{ return m_type==false; }
+	const char getType()		{ return m_type; }
+	const std::string getURL()	{ return m_path; }
 
-    std::string m_path;
-    char m_type;
+    private:
+	std::string m_path;
+	bool m_type;
 };
 
 typedef std::list<DirFile> DirFileList;
 
-struct DirFileSorted{
+struct DirFileSorted
+{
     std::vector<std::string>* ptr_list_dirs;
     std::vector<std::string>* ptr_list_files;
 };
 
-class PluginFile : public PluginEntry{
+class PluginFile : public PluginEntry
+{
     public:
 	PluginFile() : PluginEntry() { changeDir(PLUGIN_VIDEO_HOME); }
 	~PluginFile()  {}
@@ -42,10 +47,8 @@ class PluginFile : public PluginEntry{
 	virtual std::list<std::string>& getListFiletypes();
 
     private:
-	//virtual const	unsigned short int  getNumberEntries() { return m_entries.size(); }
 			void		    changeDir(const std::string dir);
 			void		    changeDir(const std::string dir, const unsigned short int active);
-			void		    clearList();
 
         std::string			    m_curDir;
 

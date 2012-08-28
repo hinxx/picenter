@@ -15,7 +15,7 @@ class PluginEntry : public PluginBase{
 
 	virtual	void	draw();
 	virtual	bool	input(const SDL_Event& event);
-		void	clearEntries();
+		void	clear();
 
 	inline  const size_t getCountEntries() const { return m_entries.size(); }
 

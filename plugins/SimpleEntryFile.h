@@ -3,17 +3,17 @@
 
 #include "SimpleEntryURL.h"
 
-class SimpleEntryFile : public SimpleEntryURL{
+class SimpleEntryFile : public SimpleEntryURL
+{
     public:
-	SimpleEntryFile(const std::string& n_url, const char n_type);
-	SimpleEntryFile(const std::string& n_label, const std::string n_url, const char n_type, const char colorR, const char colorG, const char colorB) : SimpleEntryURL(n_label, n_url, colorR, colorG, colorB) { m_type = n_type; }
+	SimpleEntryFile(const std::string& n_label, const std::string& n_url, const bool n_type);
 
-	const bool isDir()		{ return m_type==1; }
-	const bool isFile()		{ return m_type==2; }
+	const bool isDir()		{ return m_type==true; }
+	const bool isFile()		{ return m_type==false; }
 	const char getType()		{ return m_type; }
 
     private:
-	char m_type;
+	bool m_type;
 };
 
 #endif

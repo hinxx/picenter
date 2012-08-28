@@ -9,7 +9,8 @@
 
 typedef PluginBase __Base;
 
-PluginEntry::PluginEntry(){
+PluginEntry::PluginEntry()
+{
     const SDL_VideoInfo* curmode = SDL_GetVideoInfo();
 
     m_surf_active = SDL_CreateRGBSurface(SDL_SWSURFACE, curmode->current_w, FONTSIZE, (int)curmode->vfmt->BitsPerPixel, COLOR_MARKED_R, COLOR_MARKED_G, COLOR_MARKED_B, 255);
@@ -29,14 +30,16 @@ PluginEntry::PluginEntry(){
     draw();
 }
 
-PluginEntry::~PluginEntry(){
+PluginEntry::~PluginEntry()
+{
     SDL_FreeSurface(m_surf_active);
 
     for(size_t ii=0;ii<m_entries.size();ii++)
 	delete m_entries[ii];
 }
 
-void PluginEntry::pressDown(){
+void PluginEntry::pressDown()
+{
 	m_active+=1;	
 
 	if(m_active==getCountEntries())
@@ -46,7 +49,8 @@ void PluginEntry::pressDown(){
 	    draw();
 }
 
-void PluginEntry::pressUp(){
+void PluginEntry::pressUp()
+{
 	if(m_active==0)
 	    m_active=getCountEntries()-1;
 	else
@@ -70,7 +74,8 @@ void PluginEntry::addEntry(const std::string& n_label, const char colorR, const 
     m_entries.push_back(nEntry);
 }
 
-void PluginEntry::draw(){
+void PluginEntry::draw()
+{
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, COLOR_BACK_R, COLOR_BACK_G, COLOR_BACK_B));
 
     m_rect.y = ENTRY_Y+m_active%AMOUNT_ENTRIES*FONTSIZE;
@@ -89,28 +94,34 @@ void PluginEntry::draw(){
     SDL_Flip(screen); 
 }
 
-void PluginEntry::clearEntries(){
+void PluginEntry::clear()
+{
     for(size_t ii=0;ii<m_entries.size();ii++)
 	delete m_entries[ii];
 
     m_entries.clear();
 }
 
-bool PluginEntry::input(const SDL_Event& event){
+bool PluginEntry::input(const SDL_Event& event)
+{
     if(__Base::input(event)==true)
 	return true;
-    else{
-	if(event.type==SDL_KEYDOWN){
+    else
+    {
+	if(event.type==SDL_KEYDOWN)
+	{
 	    if(event.key.keysym.sym==SDLK_DOWN)
 		pressDown();
 	    else if(event.key.keysym.sym==SDLK_UP)
 		pressUp();
-	    else if(event.key.keysym.sym==SDLK_RIGHT){
+	    else if(event.key.keysym.sym==SDLK_RIGHT)
+	    {
 		m_active += AMOUNT_ENTRIES;
 		if(m_active>getCountEntries()-1)
 		    m_active = getCountEntries()-1;
 	    }
-	    else if(event.key.keysym.sym==SDLK_LEFT){
+	    else if(event.key.keysym.sym==SDLK_LEFT)
+	    {
 		if(m_active<AMOUNT_ENTRIES)
 		    m_active=0;
 		else
